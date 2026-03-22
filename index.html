@@ -1221,7 +1221,7 @@ body {
             <div class="quotes-subtitle">Smart Quotes cannot be automatically generated for multiple packages.</div>
           </div>
           <div class="quotes-locked-body">
-            <img src="Alert.svg" alt="" width="32" height="32">
+            <img src="alert in circle.svg" alt="" width="45" height="45">
             <p class="quotes-error-text">We weren't able to generate a quote based on your packing specifications.<br><br>You can request a quote from 1stDibs for a specific customer or order later. You also have the option of quoting and facilitating your own shipping.</p>
           </div>
         </div>
@@ -1369,7 +1369,8 @@ body {
     selectEl.querySelector('.custom-select-clear').classList.add('hidden');
     selectEl.closest('.pkg-box').classList.remove('pkg-saved');
 
-    checkDimensions(true);
+    // Don't recalculate — dims are unchanged, existing quote stays valid
+    // A new quote will trigger when the user actually edits the fields
   }
 
   document.addEventListener('click', function(e) {
