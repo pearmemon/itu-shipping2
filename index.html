@@ -2807,11 +2807,25 @@ body {
 
     // Preserve manual quote modifications — don't navigate away regardless of step 1/2 changes
     if (currentState === 'parcel' && hasModifiedParcelQuotes()) {
-      const l = parseFloat(document.getElementById('length-1').value)  || 0;
-      const w = parseFloat(document.getElementById('width-1').value)   || 0;
-      const h = parseFloat(document.getElementById('height-1').value)  || 0;
-      const wt = parseFloat(document.getElementById('weight-1').value) || 0;
-      if (l > 0 && w > 0 && h > 0 && wt > 0 && isParcel(l, w, h, wt)) updateParcelQuotes(l, w, h, wt);
+      // Find first fully-filled package dimensions
+      const pkgWrapsAll = Array.from(document.querySelectorAll('#packages-container .pkg-wrap'));
+      let fl = 0, fw = 0, fh = 0, fwt = 0;
+      for (const wrap of pkgWrapsAll) {
+        const inputs = Array.from(wrap.querySelectorAll('input[type="number"]')).slice(0, 4);
+        const [pl, pw, ph, pwt] = inputs.map(i => parseFloat(i.value) || 0);
+        if (pl > 0 && pw > 0 && ph > 0 && pwt > 0) { fl = pl; fw = pw; fh = ph; fwt = pwt; break; }
+      }
+      if (fl > 0 && fw > 0 && fh > 0 && fwt > 0) {
+        if (isParcel(fl, fw, fh, fwt)) {
+          // Still parcel: refresh only 1stDibs regions, seller quotes untouched
+          updateParcelQuotes(fl, fw, fh, fwt);
+        } else {
+          // Crossed into freight: move seller-set parcel quotes to custom cards, generate freight
+          migrateSellerParcelQuotesToCustomCards();
+          showState('calculating');
+          calcTimer = setTimeout(() => { updatePrices(fl, fw, fh, fwt); showState('calculated'); }, 1800);
+        }
+      }
       return;
     }
     if (currentState === 'calculated' && hasModifiedFreightQuotes()) {
@@ -3343,6 +3357,76 @@ body {
     return anyInHome || hasCustomCards;
   }
 
+  function migrateSellerParcelQuotesToCustomCards() {
+    const meatballHTML = `
+      <div class="meatball-menu-wrap">
+        <button class="three-dot-btn" onclick="toggleMeatball(this)" title="Options">
+          <img src="hamburger menu.svg" width="20" height="20" alt="Options">
+        </button>
+        <div class="meatball-popover">
+          <div class="popover-option" onclick="editQuote(this)">Edit</div>
+          <div class="popover-option danger" onclick="deleteQuote(this)">Delete</div>
+        </div>
+      </div>`;
+
+    function makeCard(name, method, quoteType, price, timeLo, timeHi) {
+      const card = document.createElement('div');
+      card.className = 'custom-quote-card';
+      card.dataset.location = name;
+      card.dataset.method   = method;
+      card.dataset.price    = price;
+      card.dataset.daysFrom = timeLo;
+      card.dataset.daysTo   = timeHi;
+      const priceDisplay = quoteType === 'Free Shipping'
+        ? '<strong>Free</strong>'
+        : `<strong>$${parseFloat(price).toFixed(2)}</strong>`;
+      card.innerHTML = `
+        <div class="custom-quote-header">
+          <div class="region-name" style="margin-bottom:0">
+            <img src="globe.svg" alt="" width="18" height="18">
+            ${name}
+          </div>
+          ${meatballHTML}
+        </div>
+        <div class="region-cols-3">
+          <div>
+            <div class="region-col-label">Shipping Method</div>
+            <div class="region-col-value">${method}</div>
+          </div>
+          <div>
+            <div class="region-col-label">Shipping Time</div>
+            <div class="region-col-value">${timeLo}-${timeHi} days</div>
+          </div>
+          <div>
+            <div class="region-col-label">Buyer Will Pay</div>
+            <div class="region-col-value">${priceDisplay}</div>
+            <div class="region-col-sub">${quoteType}</div>
+          </div>
+        </div>`;
+      return card;
+    }
+
+    ['us', 'eu', 'row'].forEach(r => {
+      const d = parcelData[r];
+      if (d.quoteType !== '1stDibs Quote') {
+        const price = d.quoteType === 'Free Shipping' ? 0 : (d.customPrice || 0);
+        document.getElementById('custom-quotes-list').appendChild(
+          makeCard(d.name, d.method, d.quoteType, price, d.customTimeLo || '1', d.customTimeHi || '14')
+        );
+        d.quoteType = '1stDibs Quote';
+        delete d.customPrice; delete d.customTimeLo; delete d.customTimeHi;
+      }
+      if (d.expressQuoteType && d.expressQuoteType !== '1stDibs Quote') {
+        const price = d.expressQuoteType === 'Free Shipping' ? 0 : (d.expressCustomPrice || 0);
+        document.getElementById('custom-quotes-list').appendChild(
+          makeCard(`${d.name} (Express)`, d.method, d.expressQuoteType, price, d.expressCustomTimeLo || '1', d.expressCustomTimeHi || '3')
+        );
+        d.expressQuoteType = '1stDibs Quote';
+        delete d.expressCustomPrice; delete d.expressCustomTimeLo; delete d.expressCustomTimeHi;
+      }
+    });
+  }
+
   function isParcel(l, w, h, wt) {
     return wt < 150;
   }
@@ -3377,25 +3461,32 @@ body {
       const { loM, hiM, stdTime, expTime } = cfg[r];
       const stdLo = Math.max(5,  r5(rawLo * loM));
       const stdHi = Math.max(10, r5(rawHi * hiM));
-      // Express: always more expensive (~1.6× lo, ~1.8× hi of Standard for same destination)
       const expLo = r5(stdLo * 1.6);
       const expHi = r5(stdHi * 1.8);
-      parcelData[r].price        = `$${stdLo}-$${stdHi}`;
-      parcelData[r].time         = stdTime;
-      parcelData[r].expressPrice = `$${expLo}-$${expHi}`;
-      parcelData[r].expressTime  = expTime;
+      // Only update 1stDibs-generated prices; preserve seller-set prices
+      if (parcelData[r].quoteType === '1stDibs Quote') {
+        parcelData[r].price = `$${stdLo}-$${stdHi}`;
+        parcelData[r].time  = stdTime;
+      }
+      if (parcelData[r].expressQuoteType === '1stDibs Quote') {
+        parcelData[r].expressPrice = `$${expLo}-$${expHi}`;
+        parcelData[r].expressTime  = expTime;
+      }
     });
 
     ['us','eu','row'].forEach(r => {
       const d = parcelData[r];
       const shortMethod = d.method.length > 18 ? d.method.slice(0, 16) + '...' : d.method;
       document.getElementById(`parcel-${r}-method`).textContent      = shortMethod;
-      document.getElementById(`parcel-${r}-time`).textContent        = d.time;
-      document.getElementById(`parcel-${r}-price`).innerHTML         = `<strong>${d.price}</strong>`;
       document.getElementById(`parcel-${r}-quote-label`).textContent = d.quoteType;
-      // Refresh express row if already visible
+      // Only update price/time DOM for 1stDibs Quote regions — seller-set values stay untouched
+      if (d.quoteType === '1stDibs Quote') {
+        document.getElementById(`parcel-${r}-time`).textContent   = d.time;
+        document.getElementById(`parcel-${r}-price`).innerHTML    = `<strong>${d.price}</strong>`;
+      }
+      // Refresh express row if already visible and still 1stDibs
       const expResolved = document.getElementById(`parcel-express-resolved-${r}`);
-      if (expResolved && !expResolved.classList.contains('hidden')) {
+      if (expResolved && !expResolved.classList.contains('hidden') && d.expressQuoteType === '1stDibs Quote') {
         document.getElementById(`parcel-${r}-express-price`).innerHTML  = `<strong>${d.expressPrice}</strong>`;
         document.getElementById(`parcel-${r}-express-time`).textContent = d.expressTime;
       }
@@ -3617,14 +3708,39 @@ body {
     if (!r) return;
     parcelData[r].method    = document.getElementById('parcel-edit-method-select').querySelector('.custom-select-value').textContent;
     parcelData[r].quoteType = document.getElementById('parcel-edit-quote-select').querySelector('.custom-select-value').textContent;
+    const qt1 = parcelData[r].quoteType;
+    if (qt1 === 'Flat Rate') {
+      parcelData[r].customPrice   = parseFloat(document.getElementById('parcel-g1-price-input').value) || 0;
+      parcelData[r].customTimeLo  = document.getElementById('parcel-g1-time-lo').value;
+      parcelData[r].customTimeHi  = document.getElementById('parcel-g1-time-hi').value;
+    } else if (qt1 === 'Free Shipping') {
+      parcelData[r].customTimeLo  = document.getElementById('parcel-g1-time-lo').value;
+      parcelData[r].customTimeHi  = document.getElementById('parcel-g1-time-hi').value;
+    }
     const group2Visible = !document.getElementById('parcel-method-group-2').classList.contains('hidden');
     if (group2Visible) {
       parcelData[r].expressQuoteType = document.getElementById('parcel-edit-quote-2-select').querySelector('.custom-select-value').textContent;
+      const qt2 = parcelData[r].expressQuoteType;
+      if (qt2 === 'Flat Rate') {
+        parcelData[r].expressCustomPrice  = parseFloat(document.getElementById('parcel-g2-price-input').value) || 0;
+        parcelData[r].expressCustomTimeLo = document.getElementById('parcel-g2-time-lo').value;
+        parcelData[r].expressCustomTimeHi = document.getElementById('parcel-g2-time-hi').value;
+      } else if (qt2 === 'Free Shipping') {
+        parcelData[r].expressCustomTimeLo = document.getElementById('parcel-g2-time-lo').value;
+        parcelData[r].expressCustomTimeHi = document.getElementById('parcel-g2-time-hi').value;
+      }
     }
     // Re-render the card
     const shortMethod = parcelData[r].method.length > 18 ? parcelData[r].method.slice(0, 16) + '...' : parcelData[r].method;
-    document.getElementById(`parcel-${r}-method`).textContent     = shortMethod;
+    document.getElementById(`parcel-${r}-method`).textContent      = shortMethod;
     document.getElementById(`parcel-${r}-quote-label`).textContent = parcelData[r].quoteType;
+    if (qt1 === 'Flat Rate') {
+      document.getElementById(`parcel-${r}-price`).innerHTML       = `<strong>$${parcelData[r].customPrice.toFixed(2)}</strong>`;
+      document.getElementById(`parcel-${r}-time`).textContent      = `${parcelData[r].customTimeLo}-${parcelData[r].customTimeHi} days`;
+    } else if (qt1 === 'Free Shipping') {
+      document.getElementById(`parcel-${r}-price`).innerHTML       = `<strong>Free</strong>`;
+      document.getElementById(`parcel-${r}-time`).textContent      = `${parcelData[r].customTimeLo}-${parcelData[r].customTimeHi} days`;
+    }
     closeParcelEditModal();
   }
 
