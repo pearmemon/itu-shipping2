@@ -227,12 +227,13 @@ body {
 .listbox-card {
   position: relative;
   border: 1px solid var(--color-grey-88);
+  border-radius: var(--r-sm);
   background: var(--color-white);
   min-height: 64px;
-  padding: 14px 19px 13px;
+  padding: var(--sp-9) var(--sp-18);
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0;
   justify-content: center;
 }
 
@@ -241,6 +242,7 @@ body {
   font-weight: 600;
   line-height: 16.8px;
   color: var(--color-grey-13);
+  margin-bottom: 5px;
 }
 
 .listbox-sub {
@@ -252,7 +254,7 @@ body {
 
 .btn-pill {
   position: absolute;
-  right: 19px;
+  right: var(--sp-18);
   top: 50%;
   transform: translateY(-50%);
   border: 1px solid var(--color-blue-600);
@@ -298,20 +300,14 @@ body {
   right: 18px;
   top: 50%;
   transform: translateY(-50%);
-  width: 14px;
-  height: 14px;
+  width: 20px;
+  height: 20px;
   pointer-events: none;
 }
 
 /* ── Divider ─────────────────────────────────────────────────────── */
 .divider-wrap {
   width: 100%;
-  height: 49px;
-  display: flex;
-  align-items: center;
-  padding: 24px 0;
-  /* collapse the gap — uses negative margin trick */
-  margin-top: calc(-1 * var(--sp-36));
 }
 
 .divider {
@@ -338,6 +334,7 @@ body {
 
 .info-banner {
   background: var(--color-blue-50);
+  border-radius: var(--r-sm);
   padding: var(--sp-18);
   font-size: 14px;
   font-weight: 300;
@@ -476,9 +473,9 @@ body {
 
 .pkg-header {
   background: var(--color-bg-contrast-low);
-  border: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
   border-radius: var(--r-sm) var(--r-sm) 0 0;
-  padding: var(--sp-9) 18px;
+  padding: var(--sp-9) var(--sp-9) var(--sp-9) 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -495,12 +492,10 @@ body {
   cursor: pointer;
   background: none;
   border: none;
-  padding: 0 0 0 8px;
+  padding: 0;
   display: flex;
   align-items: center;
-  opacity: 0.4;
 }
-.pkg-remove:hover { opacity: 0.8; }
 
 .pkg-body {
   display: flex;
@@ -537,7 +532,7 @@ body {
   border-radius: var(--r-sm);
   background: #fff;
   height: 40px;
-  padding: 0 var(--sp-9) 0 var(--sp-18);
+  padding: 0 var(--sp-18);
   font-size: 16px;
   font-weight: 300;
   line-height: 24px;
@@ -562,7 +557,6 @@ body {
   font-weight: 300;
   color: var(--color-grey-66);
   flex-shrink: 0;
-  padding-left: 4px;
 }
 
 /* full-width weight row */
@@ -607,10 +601,7 @@ body {
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  opacity: 0.5;
-  transition: opacity 0.15s;
 }
-.custom-select-clear:hover { opacity: 1; }
 
 /* ── Custom select ───────────────────────────────────────────────── */
 .custom-select {
@@ -633,9 +624,9 @@ body {
 
 .custom-select-value {
   font-family: var(--font-2);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 300;
-  line-height: 1.5;
+  line-height: 24px;
   color: var(--color-grey-13);
   flex: 1;
   min-width: 0;
@@ -694,7 +685,7 @@ body {
   align-items: center;
   gap: var(--sp-5);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 300;
   color: var(--color-blue-600);
   cursor: pointer;
   text-decoration: none;
@@ -730,6 +721,7 @@ body {
 /* ── Quotes panel ────────────────────────────────────────────────── */
 .quotes-panel {
   background: var(--color-grey-100);
+  border: 1px solid var(--color-grey-88);
   border-radius: var(--r-sm);
   width: 100%;
   margin-bottom: var(--sp-18);
@@ -835,7 +827,7 @@ body {
 }
 
 .region-col-value {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 300;
   color: var(--color-grey-13);
   line-height: 1.5;
@@ -845,6 +837,15 @@ body {
   color: var(--color-grey-53);
   letter-spacing: 3px;
   font-size: 12px;
+}
+
+/* Shipping Method column — always one line with ellipsis */
+.region-cols > div:first-child .region-col-value,
+.region-cols-3 > div:first-child .region-col-value,
+.parcel-card-cols > div:first-child .region-col-value {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .region-col-value strong {
@@ -862,6 +863,12 @@ body {
 }
 .add-inhome-link:hover { text-decoration: underline; }
 
+.inhome-cols {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-grey-88);
+}
+
 /* ── Add Your Own Quote button ───────────────────────────────────── */
 .add-own-quote-btn {
   width: 100%;
@@ -872,7 +879,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--sp-9);
   cursor: pointer;
   font-family: var(--font-2);
   font-size: 16px;
@@ -893,6 +900,1143 @@ body {
 
 /* ── Hidden utility ──────────────────────────────────────────────── */
 .hidden { display: none !important; }
+
+/* ── Estimate Packing Dimensions modal ───────────────────────────── */
+.estimate-title {
+  font-family: var(--font-1);
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.estimate-info-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-9);
+  background: #fdf8ed;
+  border-radius: var(--r-sm);
+  padding: var(--sp-18);
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--color-grey-13);
+}
+
+.estimate-checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-18);
+  cursor: pointer;
+}
+
+.estimate-checkbox-input {
+  display: none;
+}
+
+.estimate-checkbox-custom {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  border: 1.5px solid var(--color-blue-600);
+  border-radius: 3px;
+  background: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s;
+}
+.estimate-checkbox-input:checked ~ .estimate-checkbox-custom {
+  border-color: var(--color-blue-600);
+}
+.estimate-checkbox-input:checked ~ .estimate-checkbox-custom::after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  background: var(--color-blue-600);
+  border-radius: 2px;
+}
+
+.estimate-checkbox-label {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--color-grey-13);
+}
+
+.estimate-footer {
+  padding: 0 var(--sp-36) var(--sp-36);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-9);
+}
+
+.estimate-use-btn {
+  width: 100%;
+  padding: var(--sp-14) var(--sp-18);
+  border: none;
+  border-radius: var(--r-sm);
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  background: var(--color-bg-contrast-low);
+  color: var(--color-grey-53);
+  cursor: default;
+  transition: background 0.15s, color 0.15s;
+}
+.estimate-use-btn:not(:disabled) {
+  background: var(--color-blue-600);
+  color: var(--color-white);
+  cursor: pointer;
+}
+.estimate-use-btn:not(:disabled):hover { background: #3a5e82; }
+
+.estimate-cancel-btn {
+  width: 100%;
+  padding: var(--sp-14) var(--sp-18);
+  background: transparent;
+  border: 1px solid var(--color-blue-600);
+  border-radius: var(--r-sm);
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--color-blue-600);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.estimate-cancel-btn:hover { background: rgba(67,107,147,0.06); }
+
+/* ── Modal overlay ───────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 45px 20px 20px;
+  overflow-y: auto;
+}
+
+.modal {
+  background: var(--color-white);
+  border-radius: var(--r-sm);
+  width: 100%;
+  max-width: 540px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+
+.modal-header {
+  position: relative;
+  padding: var(--sp-18) var(--sp-36);
+  border-bottom: 1px solid var(--color-grey-88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-title {
+  font-family: var(--font-2);
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--color-grey-13);
+}
+
+.modal-close {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.modal-body {
+  padding: var(--sp-18) var(--sp-36) var(--sp-36);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-18);
+}
+
+.modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-9);
+}
+
+.modal-label {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--color-grey-13);
+}
+
+.modal-price-input {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-grey-88);
+  border-radius: var(--r-sm);
+  height: 40px;
+  padding: 0 var(--sp-14);
+  gap: 6px;
+}
+.modal-price-input:focus-within { border-color: var(--color-blue-600); }
+
+.modal-price-prefix {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+  color: var(--color-grey-53);
+  flex-shrink: 0;
+}
+
+.modal-price-input input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-2);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+  color: var(--color-grey-13);
+  min-width: 0;
+}
+.modal-price-input input::placeholder { color: var(--color-grey-53); }
+
+.modal-price-suffix {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+  color: var(--color-grey-53);
+  flex-shrink: 0;
+}
+
+.modal-helper {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--color-grey-53);
+  line-height: 1.5;
+}
+
+.modal-time-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: var(--sp-9);
+}
+
+.modal-time-input {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-grey-88);
+  border-radius: var(--r-sm);
+  height: 40px;
+  padding: 0 var(--sp-14);
+  gap: 6px;
+}
+.modal-time-input:focus-within { border-color: var(--color-blue-600); }
+
+.modal-time-input input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-2);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+  color: var(--color-grey-13);
+  min-width: 0;
+}
+.modal-time-input input::placeholder { color: var(--color-grey-53); }
+
+.modal-time-unit {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+  color: var(--color-grey-53);
+  flex-shrink: 0;
+}
+
+.modal-time-to {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+  color: var(--color-grey-53);
+  flex-shrink: 0;
+}
+
+.modal-footer {
+  padding: var(--sp-9) var(--sp-36) var(--sp-36);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.modal-footer:has(.modal-delete.visible) {
+  justify-content: space-between;
+}
+
+.modal-footer-right {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-18);
+}
+
+.modal-delete {
+  display: none;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  font-family: var(--font-2);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  color: var(--color-grey-13);
+  cursor: pointer;
+  padding: var(--sp-9) var(--sp-18);
+}
+.modal-delete.visible { display: flex; }
+.modal-delete:hover { text-decoration: underline; }
+
+.modal-cancel {
+  background: none;
+  border: none;
+  font-family: var(--font-2);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  color: var(--color-blue-600);
+  cursor: pointer;
+  padding: var(--sp-9) var(--sp-18);
+  text-decoration: none;
+}
+.modal-cancel:hover { text-decoration: underline; }
+
+.modal-save {
+  padding: var(--sp-9) var(--sp-36);
+  border-radius: var(--r-pill);
+  font-family: var(--font-2);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  border: 1px solid var(--color-grey-88);
+  color: var(--color-grey-53);
+  background: transparent;
+}
+.modal-save:not(:disabled) {
+  border-color: var(--color-blue-600);
+  color: var(--color-blue-600);
+}
+.modal-save:not(:disabled):hover { background: rgba(67,107,147,0.06); }
+.modal-save:disabled { cursor: default; }
+
+/* ── Custom quote card ───────────────────────────────────────────── */
+.custom-quote-card {
+  border: 1px solid var(--color-grey-88);
+  border-radius: var(--r-sm);
+  width: 100%;
+  margin-bottom: var(--sp-18);
+}
+
+.custom-quote-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-18);
+}
+
+.meatball-menu-wrap {
+  position: relative;
+}
+
+.three-dot-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.meatball-popover {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-sm);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+  z-index: 200;
+  padding: var(--sp-9);
+  min-width: 110px;
+}
+.meatball-menu-wrap.open .meatball-popover { display: block; }
+
+.popover-option {
+  padding: var(--sp-9);
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--color-grey-13);
+  cursor: pointer;
+  border-radius: var(--r-sm);
+  transition: background 0.12s;
+}
+.popover-option:hover { background: var(--color-blue-50); }
+.popover-option.danger { color: #c0392b; }
+.popover-option.danger:hover { background: #fdf0f0; }
+
+.region-cols-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4px 8px;
+  padding: 0 var(--sp-18) var(--sp-18);
+}
+
+.region-col-sub {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--color-grey-53);
+  line-height: 1.5;
+}
+
+/* ── Legacy modal (serif header, filled save) ────────────────────── */
+.modal-legacy {
+  background: var(--color-white);
+  border-radius: var(--r-sm);
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+}
+.modal-legacy.narrow {
+  max-width: 540px;
+}
+
+.modal-legacy-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: var(--sp-36) var(--sp-36) 0 var(--sp-36);
+}
+
+.modal-legacy-back {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Two-column row inside legacy forms */
+.legacy-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-18);
+}
+
+/* Checkbox row inside legacy forms */
+.legacy-check-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-9);
+  cursor: pointer;
+}
+.legacy-check-input {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 3px;
+  accent-color: var(--color-blue-600);
+  cursor: pointer;
+}
+.legacy-check-label {
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--color-grey-53);
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.modal-legacy-title {
+  flex: 1;
+  text-align: center;
+  font-family: var(--font-1);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--color-grey-13);
+  margin: 0;
+}
+
+/* Placeholder color for custom selects inside legacy modals */
+.modal-legacy .custom-select-value.ph {
+  color: var(--color-grey-53);
+}
+
+/* Field labels above inputs in legacy forms */
+.legacy-field-label {
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-grey-13);
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+.legacy-field-label span {
+  font-weight: 300;
+}
+
+/* Info text at top of legacy form body */
+.legacy-info-text {
+  font-family: var(--font-2);
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--color-grey-53);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Inline radio buttons inside legacy forms */
+.legacy-inline-radios {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-27);
+  margin-top: 6px;
+}
+
+.legacy-inline-radio {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-family: var(--font-2);
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--color-grey-13);
+  user-select: none;
+}
+
+.legacy-inline-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-grey-88);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s;
+}
+.legacy-inline-radio.selected .legacy-inline-dot {
+  border-color: var(--color-blue-600);
+}
+.legacy-inline-radio.selected .legacy-inline-dot::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-blue-600);
+}
+
+/* Textarea inside legacy forms */
+.legacy-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--sp-9) var(--sp-18);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-sm);
+  font-family: var(--font-2);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+  color: var(--color-grey-13);
+  background: var(--color-white);
+  outline: none;
+  resize: vertical;
+  min-height: 100px;
+  transition: border-color 0.15s;
+}
+.legacy-textarea:focus { border-color: var(--color-blue-600); }
+.legacy-textarea::placeholder { color: var(--color-grey-53); }
+
+.modal-legacy-body {
+  padding: var(--sp-18) var(--sp-36) var(--sp-36);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-18);
+}
+
+.modal-legacy-footer {
+  padding: 0 var(--sp-36) var(--sp-36);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-9);
+}
+
+.modal-legacy-save {
+  width: 100%;
+  padding: var(--sp-14) var(--sp-18);
+  border: none;
+  border-radius: var(--r-sm);
+  font-family: var(--font-2);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: var(--color-bg-contrast-low);
+  color: var(--color-grey-53);
+  cursor: default;
+  transition: background 0.15s, color 0.15s;
+}
+.modal-legacy-save:not(:disabled) {
+  background: var(--color-blue-600);
+  color: var(--color-white);
+  cursor: pointer;
+}
+.modal-legacy-save:not(:disabled):hover { background: #3a5e82; }
+
+.modal-legacy-cancel {
+  width: 100%;
+  padding: var(--sp-14) var(--sp-18);
+  background: transparent;
+  border: 1px solid var(--color-blue-600);
+  border-radius: var(--r-sm);
+  font-family: var(--font-2);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--color-blue-600);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.modal-legacy-cancel:hover { background: rgba(67,107,147,0.06); }
+
+/* Radio list inside legacy modals */
+.legacy-radio-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+}
+
+.legacy-radio-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-18);
+  cursor: pointer;
+  border-bottom: 1px solid var(--color-border);
+  transition: background 0.12s;
+  gap: var(--sp-18);
+}
+.legacy-radio-row:last-child { border-bottom: none; }
+.legacy-radio-row:hover { background: var(--color-blue-50); }
+.legacy-radio-row.selected { background: var(--color-blue-50); }
+
+.legacy-radio-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.legacy-radio-title {
+  font-family: var(--font-2);
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--color-grey-13);
+  line-height: 1.5;
+}
+
+.legacy-radio-sub {
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--color-grey-53);
+  line-height: 1.5;
+}
+
+.legacy-radio-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-grey-88);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s;
+}
+.legacy-radio-row.selected .legacy-radio-dot {
+  border-color: var(--color-blue-600);
+}
+.legacy-radio-row.selected .legacy-radio-dot::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-blue-600);
+}
+
+/* Add pill button inside legacy modals */
+.modal-legacy-add-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-9);
+  padding: var(--sp-9) var(--sp-18);
+  border: 1px solid var(--color-blue-600);
+  border-radius: var(--r-pill);
+  background: transparent;
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-blue-600);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.modal-legacy-add-pill:hover { background: rgba(67,107,147,0.06); }
+.modal-legacy-add-pill img {
+  filter: invert(38%) sepia(22%) saturate(700%) hue-rotate(175deg) brightness(90%) contrast(90%);
+}
+
+/* Form fields inside legacy modals */
+.legacy-form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.legacy-form-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--sp-9) var(--sp-18);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-sm);
+  font-family: var(--font-2);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+  color: var(--color-grey-13);
+  background: var(--color-white);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.legacy-form-input:focus { border-color: var(--color-blue-600); }
+
+/* Screen visibility inside legacy modals */
+.legacy-screen { display: none; }
+.legacy-screen.active { display: flex; flex-direction: column; }
+
+/* ── Parcel self-service panel ───────────────────────────────────── */
+.parcel-info-card {
+  border: 1px solid var(--color-grey-88);
+  border-radius: var(--r-sm);
+  padding: var(--sp-18);
+  margin-bottom: var(--sp-18);
+}
+.parcel-info-title {
+  font-family: var(--font-2);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-grey-13);
+  line-height: 1.5;
+  margin: 0 0 6px;
+}
+.parcel-info-desc {
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--color-grey-53);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.parcel-region-card {
+  border: 1px solid var(--color-grey-88);
+  border-radius: var(--r-sm);
+  margin-bottom: var(--sp-18);
+}
+.parcel-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-18) var(--sp-18) var(--sp-9);
+}
+.parcel-card-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4px var(--sp-18);
+  padding: 0 var(--sp-18);
+}
+.add-method-link {
+  display: block;
+  padding: var(--sp-9) var(--sp-18) var(--sp-18);
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--color-blue-600);
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+.add-method-link:hover { text-decoration: underline; }
+
+/* Parcel edit modal fields */
+.modal-field-label {
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-grey-13);
+  line-height: 1.5;
+}
+.modal-price-display {
+  font-family: var(--font-2);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-grey-13);
+  line-height: 1.5;
+}
+.modal-price-subtext {
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--color-grey-53);
+  line-height: 1.5;
+  margin-top: 2px;
+}
+.modal-add-method-link {
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 300;
+  text-align: left;
+  color: var(--color-blue-600);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+.modal-add-method-link:hover { text-decoration: underline; }
+
+/* Rich Shipping Quote dropdown options */
+.pq-option {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: var(--sp-9);
+}
+.pq-option-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--sp-9);
+}
+.pq-option-title {
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-grey-13);
+  line-height: 1.5;
+}
+.pq-option-title.free { color: #2e7d32; }
+.pq-option-price {
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-grey-13);
+  white-space: nowrap;
+}
+.pq-option-sub {
+  font-family: var(--font-2);
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--color-grey-53);
+  line-height: 1.4;
+}
+/* Method group divider */
+.parcel-method-divider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 0;
+}
+/* Inline second method divider on parcel cards */
+.parcel-card-divider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: var(--sp-9) 0;
+}
+/* Remove method link */
+.parcel-remove-method-link {
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--color-blue-600);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+.parcel-remove-method-link:hover { text-decoration: underline; }
+
+.custom-select.cs-disabled .custom-select-trigger {
+  background: var(--color-bg-contrast-low);
+  pointer-events: none;
+  color: var(--color-grey-53);
+}
+
+/* 3-column inventory location rows */
+.inv-loc-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0 var(--sp-18);
+  padding: var(--sp-18);
+  border-bottom: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: background 0.12s;
+  align-items: start;
+}
+.inv-loc-row:last-child { border-bottom: none; }
+.inv-loc-row:hover { background: var(--color-blue-50); }
+.inv-loc-row.selected { background: var(--color-blue-50); }
+.inv-loc-row.selected .legacy-radio-dot { border-color: var(--color-blue-600); }
+.inv-loc-row.selected .legacy-radio-dot::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-blue-600);
+}
+
+.inv-loc-col-1 {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.inv-loc-name {
+  font-family: var(--font-2);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-grey-13);
+  line-height: 1.5;
+}
+
+.inv-loc-pickup {
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--color-grey-53);
+  line-height: 1.5;
+}
+
+.inv-loc-address-text {
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--color-grey-13);
+  line-height: 1.5;
+}
+
+.inv-loc-edit-link {
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--color-blue-600);
+  line-height: 1.5;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  text-decoration: none;
+}
+.inv-loc-edit-link:hover { text-decoration: underline; }
+
+.inv-loc-contact-text {
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--color-grey-13);
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 160px;
+}
+
+/* Parcel edit modal — time + price inputs */
+.parcel-method-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-18);
+}
+.parcel-time-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-9);
+}
+.parcel-time-input {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-sm);
+  height: 40px;
+  padding: 0 var(--sp-18);
+  gap: var(--sp-9);
+  background: #fff;
+}
+.parcel-time-input input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-2);
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--color-grey-13);
+  min-width: 0;
+  padding: 0;
+}
+.parcel-time-input input::placeholder { color: var(--color-grey-53); }
+.parcel-time-unit {
+  font-family: var(--font-2);
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--color-grey-66);
+  flex-shrink: 0;
+}
+.parcel-time-sep {
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--color-grey-66);
+  flex-shrink: 0;
+}
+.parcel-price-input {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-sm);
+  height: 40px;
+  padding: 0 var(--sp-18);
+  gap: var(--sp-9);
+  background: #fff;
+}
+.parcel-price-input:focus-within { border-color: var(--color-blue-600); }
+.parcel-price-prefix,
+.parcel-price-suffix {
+  font-family: var(--font-2);
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--color-grey-53);
+  flex-shrink: 0;
+}
+.parcel-price-input input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-2);
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--color-grey-13);
+  min-width: 0;
+  padding: 0;
+}
+.parcel-price-input input::placeholder { color: var(--color-grey-53); }
+
+/* Return Policy 4-column list */
+.ret-pol-list-wrap {
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+}
+.ret-pol-list-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr 40px;
+  gap: 0 var(--sp-18);
+  padding: 8px var(--sp-18);
+  background: #f8f8f8;
+  border-bottom: 1px solid var(--color-border);
+}
+.ret-pol-header-label {
+  font-family: var(--font-2);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-grey-53);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  line-height: 1.5;
+}
+.ret-pol-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr 40px;
+  gap: 0 var(--sp-18);
+  padding: var(--sp-18);
+  border-bottom: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: background 0.12s;
+  align-items: center;
+}
+.ret-pol-row:last-child { border-bottom: none; }
+.ret-pol-row:hover { background: var(--color-blue-50); }
+.ret-pol-row.selected { background: var(--color-blue-50); }
+.ret-pol-row.selected .legacy-radio-dot { border-color: var(--color-blue-600); }
+.ret-pol-row.selected .legacy-radio-dot::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-blue-600);
+}
+.ret-pol-col-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ret-pol-name-text {
+  font-family: var(--font-2);
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--color-grey-13);
+  line-height: 1.5;
+}
+.ret-pol-days-text,
+.ret-pol-coverage-text {
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--color-grey-13);
+  line-height: 1.5;
+}
 </style>
 </head>
 <body>
@@ -906,24 +2050,28 @@ body {
   <div class="field-group">
     <div class="section-label">Inventory Location</div>
     <div class="listbox-card">
-      <div class="listbox-title">Seller Storefront (Default)</div>
-      <div class="listbox-sub">383 North Indian Canyon Drive Palm Springs CA 92262</div>
-      <div class="listbox-sub">James - +61739928983 info@gmail.com</div>
-      <button class="btn-pill">Change Location</button>
+      <div class="listbox-title">Brooklyn, NY</div>
+      <div class="listbox-sub">42 Rochester Avenue, New York, 11233</div>
+      <div class="listbox-sub">Paras Memon - 9292889395 pearmemon@gmail.com</div>
+      <button class="btn-pill" onclick="openInvLocModal()">Change Location</button>
     </div>
   </div>
 
   <!-- ── Handling Time ── -->
   <div class="field-group">
     <div class="section-label">Handling Time</div>
-    <div class="input-select">
-      <select class="input-select-field">
-        <option>3 Business Days</option>
-        <option>1 Business Day</option>
-        <option>2 Business Days</option>
-        <option>5 Business Days</option>
-      </select>
-      <img class="input-select-chevron" src="Down icon.svg" alt="">
+    <div class="custom-select" id="handling-time-select">
+      <div class="custom-select-trigger" onclick="toggleCustomSelect('handling-time-select')">
+        <span class="custom-select-value">3 Business Days</span>
+        <img class="custom-select-chevron" src="Down icon.svg" alt="">
+      </div>
+      <div class="custom-select-dropdown">
+        <div class="custom-select-option" onclick="pickHandlingTime(this)">1 Business Day</div>
+        <div class="custom-select-option" onclick="pickHandlingTime(this)">2 Business Days</div>
+        <div class="custom-select-option active" onclick="pickHandlingTime(this)">3 Business Days</div>
+        <div class="custom-select-option" onclick="pickHandlingTime(this)">4 Business Days</div>
+        <div class="custom-select-option" onclick="pickHandlingTime(this)">5 Business Days</div>
+      </div>
     </div>
   </div>
 
@@ -933,7 +2081,7 @@ body {
     <div class="listbox-card">
       <div class="listbox-title">All Sales Final</div>
       <div class="listbox-sub">Accepts Returns (3 days)&nbsp;&nbsp;|&nbsp;&nbsp;Buyers pays return shipping</div>
-      <button class="btn-pill">Change Policy</button>
+      <button class="btn-pill" onclick="openRetPolModal()">Change Policy</button>
     </div>
   </div>
 
@@ -1028,10 +2176,10 @@ body {
               <div class="custom-select" id="saved-pkg-1">
                 <div class="custom-select-trigger" onclick="toggleCustomSelect('saved-pkg-1')">
                   <span class="custom-select-value"></span>
-                  <img class="custom-select-chevron" src="Down icon.svg" alt="">
                   <button class="custom-select-clear hidden" onclick="clearSavedPackage(event,'saved-pkg-1',1)" title="Clear">
-                    <img src="Close.svg" width="16" height="16" alt="Clear">
+                    <img src="Close.svg" width="20" height="20" alt="Clear">
                   </button>
+                  <img class="custom-select-chevron" src="Down icon.svg" alt="">
                 </div>
                 <div class="custom-select-dropdown">
                   <div class="custom-select-option" onclick="pickSavedPackage(this,'saved-pkg-1',1,'30,10,20,5')">Small (30 x 10 x 20 in - 5 lbs)</div>
@@ -1042,7 +2190,7 @@ body {
             </div>
             <!-- Help link -->
             <div class="help-row">
-              <a class="help-link" href="#">
+              <a class="help-link" href="#" onclick="openEstimateModal(1); return false;">
                 <img class="help-icon" src="Info.svg" alt="">
                 I don't know my package dimensions
               </a>
@@ -1074,17 +2222,13 @@ body {
             <p class="quotes-locked-text">Complete Steps 1 and 2 to generate shipping quotes or add your own.</p>
           </div>
         </div>
-        <button class="add-own-quote-btn">
-          <img src="PlusCircle.svg" alt="" width="20" height="20">
-          Add Your Own Quote
-        </button>
       </div>
 
       <!-- ── STATE: Calculating ── -->
       <div id="state-calculating" class="hidden">
         <div class="quotes-panel">
           <div class="quotes-panel-header">
-            <div class="quotes-title active">Shipping Quotes</div>
+            <div class="quotes-title active">1stDibs Smart Quotes</div>
             <div class="quotes-subtitle">Quotes are generated automatically once package details are entered.</div>
           </div>
           <!-- US -->
@@ -1139,17 +2283,92 @@ body {
             </div>
           </div>
         </div>
-        <button class="add-own-quote-btn">
-          <img src="PlusCircle.svg" alt="" width="20" height="20">
-          Add Your Own Quote
-        </button>
+      </div>
+
+      <!-- ── STATE: Parcel Loading ── -->
+      <div id="state-parcel-loading" class="hidden">
+        <div class="quotes-panel">
+          <div class="quotes-panel-header" style="border-bottom:none">
+            <div class="quotes-title active">1stDibs Parcel Self Service</div>
+            <div class="quotes-subtitle">Quotes are generated automatically once package details are entered.</div>
+          </div>
+        </div>
+        <div class="parcel-region-card">
+          <div class="parcel-card-header">
+            <div class="region-name" style="margin-bottom:0">
+              <img src="globe.svg" alt="" width="18" height="18">
+              United States
+            </div>
+          </div>
+          <div class="parcel-card-cols" style="padding-bottom:var(--sp-18)">
+            <div>
+              <div class="region-col-label">Shipping Method</div>
+              <div class="region-col-value dots calculating-dots">•••</div>
+            </div>
+            <div>
+              <div class="region-col-label">Shipping Time</div>
+              <div class="region-col-value dots calculating-dots">•••</div>
+            </div>
+            <div>
+              <div class="region-col-label">Buyer Will Pay</div>
+              <div class="region-col-value dots calculating-dots">•••</div>
+              <div class="region-col-sub">1stDibs Quote</div>
+            </div>
+          </div>
+        </div>
+        <div class="parcel-region-card">
+          <div class="parcel-card-header">
+            <div class="region-name" style="margin-bottom:0">
+              <img src="globe.svg" alt="" width="18" height="18">
+              Europe
+            </div>
+          </div>
+          <div class="parcel-card-cols" style="padding-bottom:var(--sp-18)">
+            <div>
+              <div class="region-col-label">Shipping Method</div>
+              <div class="region-col-value dots calculating-dots">•••</div>
+            </div>
+            <div>
+              <div class="region-col-label">Shipping Time</div>
+              <div class="region-col-value dots calculating-dots">•••</div>
+            </div>
+            <div>
+              <div class="region-col-label">Buyer Will Pay</div>
+              <div class="region-col-value dots calculating-dots">•••</div>
+              <div class="region-col-sub">1stDibs Quote</div>
+            </div>
+          </div>
+        </div>
+        <div class="parcel-region-card">
+          <div class="parcel-card-header">
+            <div class="region-name" style="margin-bottom:0">
+              <img src="globe.svg" alt="" width="18" height="18">
+              Rest of the World
+            </div>
+          </div>
+          <div class="parcel-card-cols" style="padding-bottom:var(--sp-18)">
+            <div>
+              <div class="region-col-label">Shipping Method</div>
+              <div class="region-col-value dots calculating-dots">•••</div>
+            </div>
+            <div>
+              <div class="region-col-label">Shipping Time</div>
+              <div class="region-col-value dots calculating-dots">•••</div>
+            </div>
+            <div>
+              <div class="region-col-label">Buyer Will Pay</div>
+              <div class="region-col-value dots calculating-dots">•••</div>
+              <div class="region-col-sub">1stDibs Quote</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- ── STATE: Calculated ── -->
       <div id="state-calculated" class="hidden">
         <div class="quotes-panel">
           <div class="quotes-panel-header">
-            <div class="quotes-title active">Shipping Quotes</div>
+            <div class="quotes-title active">1stDibs Smart Quotes</div>
             <div class="quotes-subtitle">Quotes are generated automatically once package details are entered.</div>
           </div>
           <!-- US -->
@@ -1165,10 +2384,20 @@ body {
               </div>
               <div>
                 <div class="region-col-label">Buyer Will Pay</div>
-                <div class="region-col-value" id="us-price"><strong>$50.00–$100.00</strong></div>
+                <div class="region-col-value" id="us-price"><strong>$50.00-$100.00</strong></div>
               </div>
             </div>
-            <a class="add-inhome-link" href="#">+ Add In-Home Delivery</a>
+            <div class="region-cols inhome-cols hidden" id="us-inhome-result">
+              <div>
+                <div class="region-col-label">Shipping Method</div>
+                <div class="region-col-value">In-Home Delivery</div>
+              </div>
+              <div>
+                <div class="region-col-label">Buyer Will Pay</div>
+                <div class="region-col-value" id="us-inhome-price"></div>
+              </div>
+            </div>
+            <a class="add-inhome-link" href="#" id="us-inhome-link" onclick="toggleInHome('us'); return false;">+ Add In-Home Delivery</a>
           </div>
           <!-- Europe -->
           <div class="region-row">
@@ -1183,10 +2412,20 @@ body {
               </div>
               <div>
                 <div class="region-col-label">Buyer Will Pay</div>
-                <div class="region-col-value" id="eu-price"><strong>$50.00–$100.00</strong></div>
+                <div class="region-col-value" id="eu-price"><strong>$50.00-$100.00</strong></div>
               </div>
             </div>
-            <a class="add-inhome-link" href="#">+ Add In-Home Delivery</a>
+            <div class="region-cols inhome-cols hidden" id="eu-inhome-result">
+              <div>
+                <div class="region-col-label">Shipping Method</div>
+                <div class="region-col-value">In-Home Delivery</div>
+              </div>
+              <div>
+                <div class="region-col-label">Buyer Will Pay</div>
+                <div class="region-col-value" id="eu-inhome-price"></div>
+              </div>
+            </div>
+            <a class="add-inhome-link" href="#" id="eu-inhome-link" onclick="toggleInHome('eu'); return false;">+ Add In-Home Delivery</a>
           </div>
           <!-- Rest of World -->
           <div class="region-row" style="border-bottom:none">
@@ -1201,16 +2440,22 @@ body {
               </div>
               <div>
                 <div class="region-col-label">Buyer Will Pay</div>
-                <div class="region-col-value" id="row-price"><strong>$50.00–$100.00</strong></div>
+                <div class="region-col-value" id="row-price"><strong>$50.00-$100.00</strong></div>
               </div>
             </div>
-            <a class="add-inhome-link" href="#">+ Add In-Home Delivery</a>
+            <div class="region-cols inhome-cols hidden" id="row-inhome-result">
+              <div>
+                <div class="region-col-label">Shipping Method</div>
+                <div class="region-col-value">In-Home Delivery</div>
+              </div>
+              <div>
+                <div class="region-col-label">Buyer Will Pay</div>
+                <div class="region-col-value" id="row-inhome-price"></div>
+              </div>
+            </div>
+            <a class="add-inhome-link" href="#" id="row-inhome-link" onclick="toggleInHome('row'); return false;">+ Add In-Home Delivery</a>
           </div>
         </div>
-        <button class="add-own-quote-btn">
-          <img src="PlusCircle.svg" alt="" width="20" height="20">
-          Add Your Own Quote
-        </button>
       </div>
 
       <!-- ── STATE: Multi-package error ── -->
@@ -1225,7 +2470,220 @@ body {
             <p class="quotes-error-text">We weren't able to generate a quote based on your packing specifications.<br><br>You can request a quote from 1stDibs for a specific customer or order later. You also have the option of quoting and facilitating your own shipping.</p>
           </div>
         </div>
-        <button class="add-own-quote-btn">
+      </div>
+
+      <!-- ── STATE: Parcel ── -->
+      <div id="state-parcel" class="hidden">
+        <div class="quotes-panel">
+          <div class="quotes-panel-header" style="border-bottom:none">
+            <div class="quotes-title active">1stDibs Parcel Self Service</div>
+            <div class="quotes-subtitle">Quotes are generated automatically once package details are entered.</div>
+          </div>
+        </div>
+        <!-- US -->
+        <div class="parcel-region-card" id="parcel-card-us">
+          <div class="parcel-card-header">
+            <div class="region-name" style="margin-bottom:0">
+              <img src="globe.svg" alt="" width="18" height="18">
+              United States
+            </div>
+            <div class="meatball-menu-wrap">
+              <button class="three-dot-btn" onclick="toggleMeatball(this)" title="Options">
+                <img src="meatball menu.svg" width="20" height="20" alt="Options">
+              </button>
+              <div class="meatball-popover">
+                <div class="popover-option" onclick="openParcelEditModal('us')">Edit</div>
+              </div>
+            </div>
+          </div>
+          <div class="parcel-card-cols">
+            <div>
+              <div class="region-col-label">Shipping Method</div>
+              <div class="region-col-value" id="parcel-us-method">DHL Standard Par...</div>
+            </div>
+            <div>
+              <div class="region-col-label">Shipping Time</div>
+              <div class="region-col-value" id="parcel-us-time">5-14 days</div>
+            </div>
+            <div>
+              <div class="region-col-label">Buyer Will Pay</div>
+              <div class="region-col-value" id="parcel-us-price"><strong>$50-$100</strong></div>
+              <div class="region-col-sub" id="parcel-us-quote-label">1stDibs Quote</div>
+            </div>
+          </div>
+          <!-- Inline Express method (added via + Add Shipping Method) -->
+          <hr class="parcel-card-divider hidden" id="parcel-divider-us">
+          <div class="parcel-card-cols hidden" id="parcel-express-loading-us" style="padding-bottom:var(--sp-18)">
+            <div>
+              <div class="region-col-label">Shipping Method</div>
+              <div class="region-col-value dots calculating-dots">•••</div>
+            </div>
+            <div>
+              <div class="region-col-label">Shipping Time</div>
+              <div class="region-col-value dots calculating-dots">•••</div>
+            </div>
+            <div>
+              <div class="region-col-label">Buyer Will Pay</div>
+              <div class="region-col-value dots calculating-dots">•••</div>
+              <div class="region-col-sub">1stDibs Quote</div>
+            </div>
+          </div>
+          <div class="parcel-card-cols hidden" id="parcel-express-resolved-us">
+            <div>
+              <div class="region-col-label">Shipping Method</div>
+              <div class="region-col-value">DHL Express Par...</div>
+            </div>
+            <div>
+              <div class="region-col-label">Shipping Time</div>
+              <div class="region-col-value" id="parcel-us-express-time">1-3 days</div>
+            </div>
+            <div>
+              <div class="region-col-label">Buyer Will Pay</div>
+              <div class="region-col-value" id="parcel-us-express-price"><strong>$50-$100</strong></div>
+              <div class="region-col-sub">1stDibs Quote</div>
+            </div>
+          </div>
+          <button class="add-method-link hidden" id="parcel-remove-us" onclick="removeParcelCardMethod('us')">- Remove Shipping Method</button>
+          <button class="add-method-link" id="parcel-add-us" onclick="addParcelCardMethod('us')">+ Add Shipping Method</button>
+        </div>
+        <!-- Europe -->
+        <div class="parcel-region-card" id="parcel-card-eu">
+          <div class="parcel-card-header">
+            <div class="region-name" style="margin-bottom:0">
+              <img src="globe.svg" alt="" width="18" height="18">
+              Europe
+            </div>
+            <div class="meatball-menu-wrap">
+              <button class="three-dot-btn" onclick="toggleMeatball(this)" title="Options">
+                <img src="meatball menu.svg" width="20" height="20" alt="Options">
+              </button>
+              <div class="meatball-popover">
+                <div class="popover-option" onclick="openParcelEditModal('eu')">Edit</div>
+              </div>
+            </div>
+          </div>
+          <div class="parcel-card-cols">
+            <div>
+              <div class="region-col-label">Shipping Method</div>
+              <div class="region-col-value" id="parcel-eu-method">DHL Standard Par...</div>
+            </div>
+            <div>
+              <div class="region-col-label">Shipping Time</div>
+              <div class="region-col-value" id="parcel-eu-time">5-14 days</div>
+            </div>
+            <div>
+              <div class="region-col-label">Buyer Will Pay</div>
+              <div class="region-col-value" id="parcel-eu-price"><strong>$50-$100</strong></div>
+              <div class="region-col-sub" id="parcel-eu-quote-label">1stDibs Quote</div>
+            </div>
+          </div>
+          <!-- Inline Express method -->
+          <hr class="parcel-card-divider hidden" id="parcel-divider-eu">
+          <div class="parcel-card-cols hidden" id="parcel-express-loading-eu" style="padding-bottom:var(--sp-18)">
+            <div>
+              <div class="region-col-label">Shipping Method</div>
+              <div class="region-col-value dots calculating-dots">•••</div>
+            </div>
+            <div>
+              <div class="region-col-label">Shipping Time</div>
+              <div class="region-col-value dots calculating-dots">•••</div>
+            </div>
+            <div>
+              <div class="region-col-label">Buyer Will Pay</div>
+              <div class="region-col-value dots calculating-dots">•••</div>
+              <div class="region-col-sub">1stDibs Quote</div>
+            </div>
+          </div>
+          <div class="parcel-card-cols hidden" id="parcel-express-resolved-eu">
+            <div>
+              <div class="region-col-label">Shipping Method</div>
+              <div class="region-col-value">DHL Express Par...</div>
+            </div>
+            <div>
+              <div class="region-col-label">Shipping Time</div>
+              <div class="region-col-value" id="parcel-eu-express-time">2-5 days</div>
+            </div>
+            <div>
+              <div class="region-col-label">Buyer Will Pay</div>
+              <div class="region-col-value" id="parcel-eu-express-price"><strong>$50-$100</strong></div>
+              <div class="region-col-sub">1stDibs Quote</div>
+            </div>
+          </div>
+          <button class="add-method-link hidden" id="parcel-remove-eu" onclick="removeParcelCardMethod('eu')">- Remove Shipping Method</button>
+          <button class="add-method-link" id="parcel-add-eu" onclick="addParcelCardMethod('eu')">+ Add Shipping Method</button>
+        </div>
+        <!-- Rest of World -->
+        <div class="parcel-region-card" id="parcel-card-row">
+          <div class="parcel-card-header">
+            <div class="region-name" style="margin-bottom:0">
+              <img src="globe.svg" alt="" width="18" height="18">
+              Rest of the World
+            </div>
+            <div class="meatball-menu-wrap">
+              <button class="three-dot-btn" onclick="toggleMeatball(this)" title="Options">
+                <img src="meatball menu.svg" width="20" height="20" alt="Options">
+              </button>
+              <div class="meatball-popover">
+                <div class="popover-option" onclick="openParcelEditModal('row')">Edit</div>
+              </div>
+            </div>
+          </div>
+          <div class="parcel-card-cols">
+            <div>
+              <div class="region-col-label">Shipping Method</div>
+              <div class="region-col-value" id="parcel-row-method">DHL Standard Par...</div>
+            </div>
+            <div>
+              <div class="region-col-label">Shipping Time</div>
+              <div class="region-col-value" id="parcel-row-time">5-14 days</div>
+            </div>
+            <div>
+              <div class="region-col-label">Buyer Will Pay</div>
+              <div class="region-col-value" id="parcel-row-price"><strong>$50-$100</strong></div>
+              <div class="region-col-sub" id="parcel-row-quote-label">1stDibs Quote</div>
+            </div>
+          </div>
+          <!-- Inline Express method -->
+          <hr class="parcel-card-divider hidden" id="parcel-divider-row">
+          <div class="parcel-card-cols hidden" id="parcel-express-loading-row" style="padding-bottom:var(--sp-18)">
+            <div>
+              <div class="region-col-label">Shipping Method</div>
+              <div class="region-col-value dots calculating-dots">•••</div>
+            </div>
+            <div>
+              <div class="region-col-label">Shipping Time</div>
+              <div class="region-col-value dots calculating-dots">•••</div>
+            </div>
+            <div>
+              <div class="region-col-label">Buyer Will Pay</div>
+              <div class="region-col-value dots calculating-dots">•••</div>
+              <div class="region-col-sub">1stDibs Quote</div>
+            </div>
+          </div>
+          <div class="parcel-card-cols hidden" id="parcel-express-resolved-row">
+            <div>
+              <div class="region-col-label">Shipping Method</div>
+              <div class="region-col-value">DHL Express Par...</div>
+            </div>
+            <div>
+              <div class="region-col-label">Shipping Time</div>
+              <div class="region-col-value" id="parcel-row-express-time">5-10 days</div>
+            </div>
+            <div>
+              <div class="region-col-label">Buyer Will Pay</div>
+              <div class="region-col-value" id="parcel-row-express-price"><strong>$50-$100</strong></div>
+              <div class="region-col-sub">1stDibs Quote</div>
+            </div>
+          </div>
+          <button class="add-method-link hidden" id="parcel-remove-row" onclick="removeParcelCardMethod('row')">- Remove Shipping Method</button>
+          <button class="add-method-link" id="parcel-add-row" onclick="addParcelCardMethod('row')">+ Add Shipping Method</button>
+        </div>
+      </div>
+
+      <!-- ── Custom quotes (persists across states) ── -->
+      <div id="custom-quotes-section">
+        <div id="custom-quotes-list"></div>
+        <button class="add-own-quote-btn" onclick="openQuoteModal()">
           <img src="PlusCircle.svg" alt="" width="20" height="20">
           Add Your Own Quote
         </button>
@@ -1236,20 +2694,106 @@ body {
 
 </div><!-- /page -->
 
+<!-- ── Add Your Own Quote Modal ── -->
+<div id="quote-modal-overlay" class="modal-overlay hidden">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-title">Add Your Own Quote</span>
+      <button class="modal-close" onclick="closeQuoteModal()">
+        <img src="Close.svg" width="24" height="24" alt="Close">
+      </button>
+    </div>
+    <div class="modal-body">
+      <!-- Location -->
+      <div class="modal-field">
+        <label class="modal-label">Location</label>
+        <div class="custom-select" id="modal-location-select">
+          <div class="custom-select-trigger" onclick="toggleCustomSelect('modal-location-select')">
+            <span class="custom-select-value"></span>
+            <img class="custom-select-chevron" src="Down icon.svg" alt="">
+          </div>
+          <div class="custom-select-dropdown">
+            <div class="custom-select-option" onclick="pickModalOption(this,'modal-location-select')">United States</div>
+            <div class="custom-select-option" onclick="pickModalOption(this,'modal-location-select')">Canada</div>
+            <div class="custom-select-option" onclick="pickModalOption(this,'modal-location-select')">Continental Europe</div>
+            <div class="custom-select-option" onclick="pickModalOption(this,'modal-location-select')">Rest of the World</div>
+            <div class="custom-select-option" onclick="pickModalOption(this,'modal-location-select')">Australia</div>
+            <div class="custom-select-option" onclick="pickModalOption(this,'modal-location-select')">Japan</div>
+            <div class="custom-select-option" onclick="pickModalOption(this,'modal-location-select')">United Kingdom</div>
+          </div>
+        </div>
+      </div>
+      <!-- Shipping Method -->
+      <div class="modal-field">
+        <label class="modal-label">Shipping Method</label>
+        <div class="custom-select" id="modal-method-select">
+          <div class="custom-select-trigger" onclick="toggleCustomSelect('modal-method-select')">
+            <span class="custom-select-value"></span>
+            <img class="custom-select-chevron" src="Down icon.svg" alt="">
+          </div>
+          <div class="custom-select-dropdown">
+            <div class="custom-select-option" onclick="pickModalOption(this,'modal-method-select')">Front Door Delivery</div>
+            <div class="custom-select-option" onclick="pickModalOption(this,'modal-method-select')">In-Home Shipping</div>
+            <div class="custom-select-option" onclick="pickModalOption(this,'modal-method-select')">White Glove</div>
+            <div class="custom-select-option" onclick="pickModalOption(this,'modal-method-select')">Freight</div>
+          </div>
+        </div>
+      </div>
+      <!-- Buyers Will Pay -->
+      <div class="modal-field">
+        <label class="modal-label">Buyers Will Pay</label>
+        <div class="modal-price-input">
+          <span class="modal-price-prefix">$</span>
+          <input type="number" id="modal-price" placeholder="" min="0" oninput="checkModalSave()">
+          <span class="modal-price-suffix">USD</span>
+        </div>
+        <p class="modal-helper">Buyers will pay this flat rate that you set.</p>
+      </div>
+      <!-- Shipping Time -->
+      <div class="modal-field">
+        <label class="modal-label">Shipping Time</label>
+        <div class="modal-time-row">
+          <div class="modal-time-input">
+            <input type="number" id="modal-days-from" placeholder="" min="0" oninput="checkModalSave()">
+            <span class="modal-time-unit">days</span>
+          </div>
+          <span class="modal-time-to">to</span>
+          <div class="modal-time-input">
+            <input type="number" id="modal-days-to" placeholder="" min="0" oninput="checkModalSave()">
+            <span class="modal-time-unit">days</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-delete" id="modal-delete-btn" onclick="deleteFromModal()">
+        <img src="delete icon.svg" width="20" height="20" alt="">
+        Delete
+      </button>
+      <div class="modal-footer-right">
+        <button class="modal-cancel" onclick="closeQuoteModal()">Cancel</button>
+        <button class="modal-save" id="modal-save-btn" onclick="saveQuote()" disabled>Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
+  let editingCard = null;
   let currentAnswer = null;
   let calcTimer = null;
   let pkgCount = 1;
   let currentState = 'locked';
+  let currentPrices = { usLo: 0, usHi: 0, euLo: 0, euHi: 0, rowLo: 0, rowHi: 0 };
+  let inhomeTimers = { us: null, eu: null, row: null };
+  let firstFilledPackageType = null; // 'parcel' | 'freight' — type of the first package to become fully filled
 
   function selectAnswer(answer) {
     currentAnswer = answer;
     document.getElementById('radio-yes').classList.toggle('selected', answer === 'yes');
     document.getElementById('radio-no').classList.toggle('selected', answer === 'no');
-    document.getElementById('step2-question').textContent = answer === 'yes'
-      ? 'Enter the dimensions of your packed item.'
-      : 'Enter the dimensions of your packed item(s).';
-    checkDimensions();
+    document.getElementById('step2-question').textContent = 'Enter the dimensions of your packed item(s).';
+    checkDimensions(true);
   }
 
   function checkDimensions(fromTyping = false) {
@@ -1266,26 +2810,52 @@ body {
       Array.from(wrap.querySelectorAll('input[type="number"]')).some(inp => parseFloat(inp.value) > 0)
     );
 
+    // Reset first-filled tracker when no packages have any data yet
+    if (pkgsWithData.length === 0) firstFilledPackageType = null;
+
     if (numPkgs > 1 && pkgsWithData.length > 1) {
-      // Multiple packages have data — multi-package flow
+      // Multiple packages have data — always resolves to error; loading state follows first-filled type
+      function multiLoadingState() {
+        const fullyFilled = pkgsWithData.filter(wrap =>
+          Array.from(wrap.querySelectorAll('input[type="number"]')).every(inp => parseFloat(inp.value) > 0)
+        );
+        // Record first-filled type on first observation of a complete package
+        if (firstFilledPackageType === null && fullyFilled.length > 0) {
+          const inputs = Array.from(fullyFilled[0].querySelectorAll('input[type="number"]')).slice(0, 4);
+          const [fl, fw, fh, fwt] = inputs.map(i => parseFloat(i.value) || 0);
+          firstFilledPackageType = isParcel(fl, fw, fh, fwt) ? 'parcel' : 'freight';
+        }
+        // Default loading state: prefer first-filled type, fall back to current state
+        const defaultLoading = firstFilledPackageType === 'parcel' ? 'parcel-loading'
+                             : firstFilledPackageType === 'freight' ? 'calculating'
+                             : (currentState === 'parcel' || currentState === 'parcel-loading') ? 'parcel-loading'
+                             : 'calculating';
+        if (fullyFilled.length === 0) return defaultLoading;
+        const parcelCount = fullyFilled.filter(wrap => {
+          const inputs = Array.from(wrap.querySelectorAll('input[type="number"]')).slice(0, 4);
+          const [l, w, h, wt] = inputs.map(i => parseFloat(i.value) || 0);
+          return isParcel(l, w, h, wt);
+        }).length;
+        if (parcelCount === fullyFilled.length) return 'parcel-loading'; // all parcel
+        if (parcelCount === 0) return 'calculating';                      // all freight
+        return defaultLoading; // mixed — use first-filled type
+      }
       if (fromTyping) {
         const allFilled = pkgsWithData.every(wrap =>
           Array.from(wrap.querySelectorAll('input[type="number"]')).every(inp => parseFloat(inp.value) > 0)
         );
         if (allFilled) {
-          // All fields filled — start calculating immediately
-          showState('calculating');
+          showState(multiLoadingState());
           calcTimer = setTimeout(() => showState('multi'), 1800);
         } else {
-          // Partial data — 2s debounce, existing quote stays visible
           calcTimer = setTimeout(() => {
-            showState('calculating');
+            showState(multiLoadingState());
             calcTimer = setTimeout(() => showState('multi'), 1800);
           }, 2000);
         }
       } else {
-        // Structural change — preserve calculated if showing, else locked
-        if (currentState !== 'calculated') showState('locked');
+        // Structural change — preserve calculated/parcel if showing, else locked
+        if (currentState !== 'calculated' && currentState !== 'parcel') showState('locked');
       }
       return;
     }
@@ -1297,11 +2867,23 @@ body {
     const wt = parseFloat(document.getElementById('weight-1').value)  || 0;
 
     if (l > 0 && w > 0 && h > 0 && wt > 0) {
-      showState('calculating');
-      calcTimer = setTimeout(() => {
-        updatePrices(l, w, h, wt);
-        showState('calculated');
-      }, 1800);
+      if (isParcel(l, w, h, wt)) {
+        showState('parcel-loading');
+        calcTimer = setTimeout(() => {
+          if (currentAnswer === 'yes') {
+            updateParcelQuotes(l, w, h, wt);
+          } else {
+            // Can't pack — 1stDibs can't generate a parcel quote
+            showState('multi');
+          }
+        }, 1800);
+      } else {
+        showState('calculating');
+        calcTimer = setTimeout(() => {
+          updatePrices(l, w, h, wt);
+          showState('calculated');
+        }, 1800);
+      }
     } else {
       showState('locked');
     }
@@ -1318,17 +2900,59 @@ body {
     const rowLo = Math.round(lo * 1.6 / 5) * 5;
     const rowHi = Math.round(hi * 1.6 / 5) * 5;
     const fmt = n => '$' + n.toFixed(2);
-    document.getElementById('us-price').innerHTML  = `<strong>${fmt(lo)}–${fmt(hi)}</strong>`;
-    document.getElementById('eu-price').innerHTML  = `<strong>${fmt(euLo)}–${fmt(euHi)}</strong>`;
-    document.getElementById('row-price').innerHTML = `<strong>${fmt(rowLo)}–${fmt(rowHi)}</strong>`;
+    document.getElementById('us-price').innerHTML  = `<strong>${fmt(lo)}-${fmt(hi)}</strong>`;
+    document.getElementById('eu-price').innerHTML  = `<strong>${fmt(euLo)}-${fmt(euHi)}</strong>`;
+    document.getElementById('row-price').innerHTML = `<strong>${fmt(rowLo)}-${fmt(rowHi)}</strong>`;
+    currentPrices = { usLo: lo, usHi: hi, euLo, euHi, rowLo, rowHi };
+    resetInHome();
+  }
+
+  function resetInHome() {
+    ['us', 'eu', 'row'].forEach(region => {
+      clearTimeout(inhomeTimers[region]);
+      document.getElementById(`${region}-inhome-result`).classList.add('hidden');
+      document.getElementById(`${region}-inhome-price`).innerHTML = '';
+      document.getElementById(`${region}-inhome-link`).textContent = '+ Add In-Home Delivery';
+    });
+  }
+
+  function toggleInHome(region) {
+    const link      = document.getElementById(`${region}-inhome-link`);
+    const resultRow = document.getElementById(`${region}-inhome-result`);
+    const priceEl   = document.getElementById(`${region}-inhome-price`);
+
+    if (link.textContent.startsWith('-')) {
+      clearTimeout(inhomeTimers[region]);
+      resultRow.classList.add('hidden');
+      priceEl.innerHTML = '';
+      link.textContent = '+ Add In-Home Delivery';
+      return;
+    }
+
+    clearTimeout(inhomeTimers[region]);
+    // Show row immediately with known info; only price is calculating
+    priceEl.innerHTML = '<span class="dots calculating-dots">•••</span>';
+    resultRow.classList.remove('hidden');
+    link.textContent = '- Remove In-Home Delivery';
+
+    inhomeTimers[region] = setTimeout(() => {
+      const fmt = n => '$' + n.toFixed(2);
+      const priceMap = { us: ['usLo','usHi'], eu: ['euLo','euHi'], row: ['rowLo','rowHi'] };
+      const [loKey, hiKey] = priceMap[region];
+      const lo = Math.round(currentPrices[loKey] * 2 / 5) * 5;
+      const hi = Math.round(currentPrices[hiKey] * 2 / 5) * 5;
+      priceEl.innerHTML = `<strong>${fmt(lo)}-${fmt(hi)}</strong>`;
+    }, 1800);
   }
 
   function showState(state) {
     currentState = state;
-    document.getElementById('state-locked').classList.toggle('hidden',      state !== 'locked');
-    document.getElementById('state-calculating').classList.toggle('hidden', state !== 'calculating');
-    document.getElementById('state-calculated').classList.toggle('hidden',  state !== 'calculated');
-    document.getElementById('state-multi-pkg').classList.toggle('hidden',   state !== 'multi');
+    document.getElementById('state-locked').classList.toggle('hidden',          state !== 'locked');
+    document.getElementById('state-calculating').classList.toggle('hidden',     state !== 'calculating');
+    document.getElementById('state-parcel-loading').classList.toggle('hidden',  state !== 'parcel-loading');
+    document.getElementById('state-calculated').classList.toggle('hidden',      state !== 'calculated');
+    document.getElementById('state-multi-pkg').classList.toggle('hidden',       state !== 'multi');
+    document.getElementById('state-parcel').classList.toggle('hidden',          state !== 'parcel');
   }
 
   function toggleCustomSelect(id) {
@@ -1351,8 +2975,7 @@ body {
     optionEl.classList.add('active');
     selectEl.classList.remove('open');
 
-    // Swap chevron → X, gray out dimension inputs
-    selectEl.querySelector('.custom-select-chevron').classList.add('hidden');
+    // Show X alongside chevron, gray out dimension inputs
     selectEl.querySelector('.custom-select-clear').classList.remove('hidden');
     selectEl.closest('.pkg-box').classList.add('pkg-saved');
 
@@ -1367,8 +2990,7 @@ body {
     selectEl.querySelector('.custom-select-value').textContent = '';
     selectEl.querySelectorAll('.custom-select-option').forEach(o => o.classList.remove('active'));
 
-    // Swap X → chevron, re-enable dimension inputs
-    selectEl.querySelector('.custom-select-chevron').classList.remove('hidden');
+    // Hide X, re-enable dimension inputs
     selectEl.querySelector('.custom-select-clear').classList.add('hidden');
     selectEl.closest('.pkg-box').classList.remove('pkg-saved');
 
@@ -1380,7 +3002,195 @@ body {
     if (!e.target.closest('.custom-select')) {
       document.querySelectorAll('.custom-select.open').forEach(s => s.classList.remove('open'));
     }
+    if (!e.target.closest('.meatball-menu-wrap')) {
+      document.querySelectorAll('.meatball-menu-wrap.open').forEach(w => w.classList.remove('open'));
+    }
   });
+
+  function getModalSelectValue(id) {
+    return document.getElementById(id).querySelector('.custom-select-value').textContent.trim();
+  }
+
+  function pickModalOption(optionEl, selectId) {
+    const selectEl = document.getElementById(selectId);
+    selectEl.querySelector('.custom-select-value').textContent = optionEl.textContent;
+    selectEl.querySelectorAll('.custom-select-option').forEach(o => o.classList.remove('active'));
+    optionEl.classList.add('active');
+    selectEl.classList.remove('open');
+    checkModalSave();
+  }
+
+  function openQuoteModal() {
+    ['modal-location-select','modal-method-select'].forEach(id => {
+      const el = document.getElementById(id);
+      el.querySelector('.custom-select-value').textContent = '';
+      el.querySelectorAll('.custom-select-option').forEach(o => o.classList.remove('active'));
+      el.classList.remove('open');
+    });
+    document.getElementById('modal-price').value     = '';
+    document.getElementById('modal-days-from').value = '';
+    document.getElementById('modal-days-to').value   = '';
+    document.getElementById('modal-save-btn').textContent = 'Save';
+    document.getElementById('modal-save-btn').disabled    = true;
+    document.getElementById('modal-title').textContent    = 'Add Your Own Quote';
+    document.getElementById('modal-delete-btn').classList.remove('visible');
+    document.getElementById('quote-modal-overlay').classList.remove('hidden');
+  }
+
+  function closeQuoteModal() {
+    document.getElementById('quote-modal-overlay').classList.add('hidden');
+    editingCard = null;
+  }
+
+  function checkModalSave() {
+    const location = getModalSelectValue('modal-location-select');
+    const method   = getModalSelectValue('modal-method-select');
+    const price    = document.getElementById('modal-price').value;
+    const daysFrom = document.getElementById('modal-days-from').value;
+    const daysTo   = document.getElementById('modal-days-to').value;
+    const ready = location && method && price !== '' && parseFloat(price) >= 0
+                  && daysFrom !== '' && daysTo !== '';
+    document.getElementById('modal-save-btn').disabled = !ready;
+  }
+
+  function saveQuote() {
+    const location = getModalSelectValue('modal-location-select');
+    const method   = getModalSelectValue('modal-method-select');
+    const price    = parseFloat(document.getElementById('modal-price').value);
+    const daysFrom = document.getElementById('modal-days-from').value;
+    const daysTo   = document.getElementById('modal-days-to').value;
+
+    const cardHTML = `
+      <div class="custom-quote-header">
+        <div class="region-name" style="margin-bottom:0">
+          <img src="globe.svg" alt="" width="18" height="18">
+          ${location}
+        </div>
+        <div class="meatball-menu-wrap">
+          <button class="three-dot-btn" onclick="toggleMeatball(this)" title="Options">
+            <img src="meatball menu.svg" width="20" height="20" alt="Options">
+          </button>
+          <div class="meatball-popover">
+            <div class="popover-option" onclick="editQuote(this)">Edit</div>
+            <div class="popover-option danger" onclick="deleteQuote(this)">Delete</div>
+          </div>
+        </div>
+      </div>
+      <div class="region-cols-3">
+        <div>
+          <div class="region-col-label">Shipping Method</div>
+          <div class="region-col-value">${method}</div>
+        </div>
+        <div>
+          <div class="region-col-label">Shipping Time</div>
+          <div class="region-col-value">${daysFrom}-${daysTo} days</div>
+        </div>
+        <div>
+          <div class="region-col-label">Buyer Will Pay</div>
+          <div class="region-col-value"><strong>$${price.toFixed(2)}</strong></div>
+          <div class="region-col-sub">Flat Rate</div>
+        </div>
+      </div>`;
+
+    if (editingCard) {
+      editingCard.innerHTML = cardHTML;
+      editingCard.dataset.location = location;
+      editingCard.dataset.method   = method;
+      editingCard.dataset.price    = price;
+      editingCard.dataset.daysFrom = daysFrom;
+      editingCard.dataset.daysTo   = daysTo;
+      editingCard = null;
+    } else {
+      const card = document.createElement('div');
+      card.className = 'custom-quote-card';
+      card.dataset.location = location;
+      card.dataset.method   = method;
+      card.dataset.price    = price;
+      card.dataset.daysFrom = daysFrom;
+      card.dataset.daysTo   = daysTo;
+      card.innerHTML = cardHTML;
+      document.getElementById('custom-quotes-list').appendChild(card);
+    }
+    closeQuoteModal();
+  }
+
+  function toggleMeatball(btn) {
+    const wrap = btn.closest('.meatball-menu-wrap');
+    const isOpen = wrap.classList.contains('open');
+    document.querySelectorAll('.meatball-menu-wrap.open').forEach(w => w.classList.remove('open'));
+    if (!isOpen) wrap.classList.add('open');
+  }
+
+  function editQuote(btn) {
+    const wrap = btn.closest('.meatball-menu-wrap');
+    wrap.classList.remove('open');
+    editingCard = btn.closest('.custom-quote-card');
+    const d = editingCard.dataset;
+
+    // Pre-fill modal selects
+    ['modal-location-select','modal-method-select'].forEach(id => {
+      const el = document.getElementById(id);
+      el.querySelector('.custom-select-value').textContent = '';
+      el.querySelectorAll('.custom-select-option').forEach(o => {
+        const match = id === 'modal-location-select' ? o.textContent === d.location : o.textContent === d.method;
+        o.classList.toggle('active', match);
+        if (match) el.querySelector('.custom-select-value').textContent = o.textContent;
+      });
+      el.classList.remove('open');
+    });
+
+    document.getElementById('modal-price').value     = d.price;
+    document.getElementById('modal-days-from').value = d.daysFrom;
+    document.getElementById('modal-days-to').value   = d.daysTo;
+    document.getElementById('modal-title').textContent    = 'Edit Your Own Quote';
+    document.getElementById('modal-save-btn').textContent = 'Update';
+    document.getElementById('modal-delete-btn').classList.add('visible');
+    checkModalSave();
+    document.getElementById('quote-modal-overlay').classList.remove('hidden');
+  }
+
+  function deleteFromModal() {
+    if (editingCard) editingCard.remove();
+    closeQuoteModal();
+  }
+
+  function deleteQuote(btn) {
+    btn.closest('.custom-quote-card').remove();
+  }
+
+  // Close modal on overlay click
+  document.getElementById('quote-modal-overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeQuoteModal();
+  });
+
+  let estimatePkgIndex = null;
+
+  function openEstimateModal(pkgIndex) {
+    estimatePkgIndex = pkgIndex;
+    document.getElementById('estimate-checkbox').checked = false;
+    document.getElementById('estimate-use-btn').disabled = true;
+    document.getElementById('estimate-modal-overlay').classList.remove('hidden');
+  }
+
+  function closeEstimateModal() {
+    document.getElementById('estimate-modal-overlay').classList.add('hidden');
+  }
+
+  function toggleEstimateBtn() {
+    document.getElementById('estimate-use-btn').disabled =
+      !document.getElementById('estimate-checkbox').checked;
+  }
+
+  function confirmEstimateDims() {
+    const n = estimatePkgIndex;
+    // Prototype base dims: 100×100×100, 500 lbs — pad +2 each
+    document.getElementById(`length-${n}`).value = 102;
+    document.getElementById(`width-${n}`).value  = 102;
+    document.getElementById(`height-${n}`).value = 102;
+    document.getElementById(`weight-${n}`).value = 502;
+    closeEstimateModal();
+    checkDimensions(true);
+  }
 
   function renumberPackages() {
     document.querySelectorAll('#packages-container .pkg-wrap').forEach((wrap, i) => {
@@ -1437,10 +3247,10 @@ body {
           <div class="custom-select" id="saved-pkg-${n}">
             <div class="custom-select-trigger" onclick="toggleCustomSelect('saved-pkg-${n}')">
               <span class="custom-select-value"></span>
-              <img class="custom-select-chevron" src="Down icon.svg" alt="">
               <button class="custom-select-clear hidden" onclick="clearSavedPackage(event,'saved-pkg-${n}',${n})" title="Clear">
-                <img src="Close.svg" width="16" height="16" alt="Clear">
+                <img src="Close.svg" width="20" height="20" alt="Clear">
               </button>
+              <img class="custom-select-chevron" src="Down icon.svg" alt="">
             </div>
             <div class="custom-select-dropdown">
               <div class="custom-select-option" onclick="pickSavedPackage(this,'saved-pkg-${n}',${n},'30,10,20,5')">Small (30 x 10 x 20 in - 5 lbs)</div>
@@ -1450,7 +3260,7 @@ body {
           </div>
         </div>
         <div class="help-row">
-          <a class="help-link" href="#">
+          <a class="help-link" href="#" onclick="openEstimateModal(${n}); return false;">
             <img class="help-icon" src="Info.svg" alt="">
             I don't know my package dimensions
           </a>
@@ -1468,11 +3278,1083 @@ body {
       .some(inp => parseFloat(inp.value) > 0);
     el.remove();
     renumberPackages();
-    // Only recalculate if the removed package had data (right panel may change)
-    // If it was empty, the right panel is unchanged — no loading state needed
-    if (hadData) checkDimensions();
+    if (hadData) {
+      firstFilledPackageType = null; // recalculate from scratch — ordering may have changed
+      checkDimensions();
+    }
   }
+
+  // ── Parcel logic ───────────────────────────────────────────────────
+  let parcelData = {
+    us:  { name: 'United States',    method: 'DHL Standard Parcel (5-14 Days)', time: '5-14 days', quoteType: '1stDibs Quote', price: '$50-$100' },
+    eu:  { name: 'Europe',           method: 'DHL Standard Parcel (5-14 Days)', time: '5-14 days', quoteType: '1stDibs Quote', price: '$50-$100' },
+    row: { name: 'Rest of the World',method: 'DHL Standard Parcel (5-14 Days)', time: '5-14 days', quoteType: '1stDibs Quote', price: '$50-$100' },
+  };
+  let editingParcelRegion = null;
+  let parcelEditChanged = false;
+
+  function isParcel(l, w, h, wt) {
+    return wt < 150;
+  }
+
+  function updateParcelQuotes(l, w, h, wt) {
+    const r5 = v => Math.round(v / 5) * 5;
+
+    // Determine shipping origin from selected inventory location
+    const selLoc = INV_LOCATIONS.find(loc => loc.selected) || INV_LOCATIONS[0];
+    const originCountry = (selLoc._fields.country || '').toLowerCase();
+    const originIsUS = originCountry === 'united states';
+    const originIsEU = ['france','germany','italy','spain','netherlands','belgium',
+                        'sweden','norway','denmark','united kingdom'].some(c => originCountry.includes(c));
+
+    // Weight-only base price (calibrated so Small 5lb → $10-$20 US, Large 32lb → $30-$65 US)
+    const rawLo = 5 + wt * 0.8;   // 5lb→9, 32lb→30.6
+    const rawHi = 12 + wt * 1.6;  // 5lb→20, 32lb→63.2
+
+    // Destination multipliers from each origin
+    // Chosen so: Small EU $15-$25, Small ROW $20-$30, Large ROW max ~$95
+    const cfg = {
+      us: originIsUS
+        ? { loM:1.0,  hiM:1.0,  stdTime:'5-14 days',  expTime:'1-3 days'  }
+        : { loM:1.5,  hiM:1.25, stdTime:'7-14 days',  expTime:'2-5 days'  },
+      eu: originIsEU
+        ? { loM:1.0,  hiM:1.0,  stdTime:'5-14 days',  expTime:'1-3 days'  }
+        : { loM:1.5,  hiM:1.25, stdTime:'7-14 days',  expTime:'2-5 days'  },
+      row: { loM:2.0, hiM:1.5,  stdTime:'14-30 days', expTime:'5-10 days' },
+    };
+
+    ['us','eu','row'].forEach(r => {
+      const { loM, hiM, stdTime, expTime } = cfg[r];
+      const stdLo = Math.max(5,  r5(rawLo * loM));
+      const stdHi = Math.max(10, r5(rawHi * hiM));
+      // Express: always more expensive (~1.6× lo, ~1.8× hi of Standard for same destination)
+      const expLo = r5(stdLo * 1.6);
+      const expHi = r5(stdHi * 1.8);
+      parcelData[r].price        = `$${stdLo}-$${stdHi}`;
+      parcelData[r].time         = stdTime;
+      parcelData[r].expressPrice = `$${expLo}-$${expHi}`;
+      parcelData[r].expressTime  = expTime;
+    });
+
+    ['us','eu','row'].forEach(r => {
+      const d = parcelData[r];
+      const shortMethod = d.method.length > 18 ? d.method.slice(0, 16) + '...' : d.method;
+      document.getElementById(`parcel-${r}-method`).textContent      = shortMethod;
+      document.getElementById(`parcel-${r}-time`).textContent        = d.time;
+      document.getElementById(`parcel-${r}-price`).innerHTML         = `<strong>${d.price}</strong>`;
+      document.getElementById(`parcel-${r}-quote-label`).textContent = d.quoteType;
+      // Refresh express row if already visible
+      const expResolved = document.getElementById(`parcel-express-resolved-${r}`);
+      if (expResolved && !expResolved.classList.contains('hidden')) {
+        document.getElementById(`parcel-${r}-express-price`).innerHTML  = `<strong>${d.expressPrice}</strong>`;
+        document.getElementById(`parcel-${r}-express-time`).textContent = d.expressTime;
+      }
+    });
+    showState('parcel');
+  }
+
+  function openParcelEditModal(region) {
+    document.querySelectorAll('.meatball-menu-wrap.open').forEach(w => w.classList.remove('open'));
+    editingParcelRegion = region;
+    parcelEditChanged = false;
+    const d = parcelData[region];
+    document.getElementById('parcel-edit-title').textContent = `Edit Quote for ${d.name}`;
+    document.getElementById('parcel-edit-location-val').textContent = d.name;
+    // Restore all method option visibility before setting exclusivity
+    document.querySelectorAll('#parcel-edit-method-select .custom-select-option, #parcel-edit-method-2-select .custom-select-option').forEach(o => {
+      o.style.display = '';
+    });
+    // Group 1 — always Standard / 1stDibs Quote
+    setParcelEditSelect('parcel-edit-method-select', 'DHL Standard Parcel (5-14 Days)');
+    setParcelEditSelect('parcel-edit-quote-select', '1stDibs Quote');
+    document.getElementById('pq-1-price').textContent = d.price;
+    document.getElementById('parcel-edit-price-display').textContent = d.price;
+    showParcelGroupFields(1, '1stDibs Quote');
+    // Group 2 defaults (set regardless, shown/hidden below)
+    const expPrice = d.expressPrice || d.price;
+    setParcelEditSelect('parcel-edit-method-2-select', 'DHL Express Parcel (1-3 Days)');
+    setParcelEditSelect('parcel-edit-quote-2-select', '1stDibs Quote');
+    document.getElementById('pq-2-price').textContent = expPrice;
+    document.getElementById('parcel-edit-price-2-display').textContent = expPrice;
+    showParcelGroupFields(2, '1stDibs Quote');
+    // If Express method is active on this card, open modal with both methods shown
+    const expressActive = !document.getElementById(`parcel-express-resolved-${region}`).classList.contains('hidden');
+    if (expressActive) {
+      // Apply exclusivity: Standard-only in group 1, Express-only in group 2
+      document.getElementById('parcel-edit-method-select').querySelectorAll('.custom-select-option').forEach(o => {
+        o.style.display = o.dataset.type === 'express' ? 'none' : '';
+      });
+      document.getElementById('parcel-edit-method-2-select').querySelectorAll('.custom-select-option').forEach(o => {
+        o.style.display = o.dataset.type === 'standard' ? 'none' : '';
+      });
+      document.getElementById('parcel-method-group-2').classList.remove('hidden');
+      document.getElementById('parcel-method-divider').classList.remove('hidden');
+      document.getElementById('parcel-add-method-btn').classList.add('hidden');
+    } else {
+      document.getElementById('parcel-method-group-2').classList.add('hidden');
+      document.getElementById('parcel-method-divider').classList.add('hidden');
+      document.getElementById('parcel-add-method-btn').classList.remove('hidden');
+    }
+    document.getElementById('parcel-edit-save-btn').disabled = true;
+    document.getElementById('parcel-edit-overlay').classList.remove('hidden');
+  }
+
+  function setParcelEditSelect(selectId, value) {
+    const el = document.getElementById(selectId);
+    el.querySelector('.custom-select-value').textContent = value;
+    el.querySelectorAll('.custom-select-option').forEach(o => {
+      const match = (o.dataset.value && o.dataset.value === value) || (!o.dataset.value && o.textContent.trim() === value);
+      o.classList.toggle('active', match);
+    });
+    el.classList.remove('open');
+  }
+
+  function pickParcelMethodOption(optionEl, selectId, groupNum) {
+    const selectEl = document.getElementById(selectId);
+    selectEl.querySelector('.custom-select-value').textContent = optionEl.textContent.trim();
+    selectEl.querySelectorAll('.custom-select-option').forEach(o => o.classList.remove('active'));
+    optionEl.classList.add('active');
+    selectEl.classList.remove('open');
+    updateOtherGroupMethods(groupNum);
+    parcelEditChanged = true;
+    checkParcelEditValid();
+  }
+
+  function updateOtherGroupMethods(changedGroupNum) {
+    const otherGroupNum = changedGroupNum === 1 ? 2 : 1;
+    const changedSelectId = changedGroupNum === 1 ? 'parcel-edit-method-select' : 'parcel-edit-method-2-select';
+    const otherSelectId   = changedGroupNum === 1 ? 'parcel-edit-method-2-select' : 'parcel-edit-method-select';
+    // Only matters if group 2 is visible
+    if (document.getElementById('parcel-method-group-2').classList.contains('hidden') && changedGroupNum === 1) return;
+    if (document.getElementById('parcel-method-group-2').classList.contains('hidden') && otherGroupNum === 2) return;
+    const chosenType = document.getElementById(changedSelectId).querySelector('.custom-select-option.active').dataset.type;
+    const otherSelect = document.getElementById(otherSelectId);
+    // Hide conflicting option in other group, show the rest
+    otherSelect.querySelectorAll('.custom-select-option').forEach(o => {
+      o.style.display = o.dataset.type === chosenType ? 'none' : '';
+    });
+    // If current selection in other group is now hidden, auto-switch to the visible one
+    const currentActive = otherSelect.querySelector('.custom-select-option.active');
+    if (!currentActive || currentActive.style.display === 'none') {
+      const available = otherSelect.querySelector('.custom-select-option:not([style*="display: none"]):not([style*="display:none"])');
+      if (available) {
+        otherSelect.querySelectorAll('.custom-select-option').forEach(o => o.classList.remove('active'));
+        available.classList.add('active');
+        otherSelect.querySelector('.custom-select-value').textContent = available.textContent.trim();
+      }
+    }
+  }
+
+  function pickParcelQuoteOption(optionEl, selectId, groupNum) {
+    const val = optionEl.dataset.value;
+    const selectEl = document.getElementById(selectId);
+    selectEl.querySelector('.custom-select-value').textContent = val;
+    selectEl.querySelectorAll('.custom-select-option').forEach(o => o.classList.remove('active'));
+    optionEl.classList.add('active');
+    selectEl.classList.remove('open');
+    showParcelGroupFields(groupNum, val);
+    parcelEditChanged = true;
+    checkParcelEditValid();
+  }
+
+  function showParcelGroupFields(groupNum, quoteType) {
+    const g = groupNum;
+    document.getElementById(`parcel-g${g}-1stdibs-price`).classList.add('hidden');
+    document.getElementById(`parcel-g${g}-flatrate-price`).classList.add('hidden');
+    document.getElementById(`parcel-g${g}-free-price`).classList.add('hidden');
+    document.getElementById(`parcel-g${g}-time`).classList.add('hidden');
+    if (quoteType === '1stDibs Quote') {
+      document.getElementById(`parcel-g${g}-1stdibs-price`).classList.remove('hidden');
+    } else if (quoteType === 'Flat Rate') {
+      document.getElementById(`parcel-g${g}-flatrate-price`).classList.remove('hidden');
+      document.getElementById(`parcel-g${g}-time`).classList.remove('hidden');
+    } else if (quoteType === 'Free Shipping') {
+      document.getElementById(`parcel-g${g}-free-price`).classList.remove('hidden');
+      document.getElementById(`parcel-g${g}-time`).classList.remove('hidden');
+    }
+  }
+
+  function addParcelMethod() {
+    // Determine which type group 1 has, give group 2 the other type
+    const g1Active = document.getElementById('parcel-edit-method-select').querySelector('.custom-select-option.active');
+    const g1Type = g1Active ? g1Active.dataset.type : 'standard';
+    const g2Select = document.getElementById('parcel-edit-method-2-select');
+    // Hide conflicting option in group 2, show other
+    g2Select.querySelectorAll('.custom-select-option').forEach(o => {
+      o.style.display = o.dataset.type === g1Type ? 'none' : '';
+    });
+    // Set group 2 to the available (non-conflicting) type
+    const available = g2Select.querySelector('.custom-select-option:not([style*="display: none"]):not([style*="display:none"])');
+    if (available) {
+      g2Select.querySelectorAll('.custom-select-option').forEach(o => o.classList.remove('active'));
+      available.classList.add('active');
+      g2Select.querySelector('.custom-select-value').textContent = available.textContent.trim();
+    }
+    document.getElementById('parcel-method-group-2').classList.remove('hidden');
+    document.getElementById('parcel-method-divider').classList.remove('hidden');
+    document.getElementById('parcel-add-method-btn').classList.add('hidden');
+    parcelEditChanged = true;
+    checkParcelEditValid();
+  }
+
+  function removeParcelMethod() {
+    document.getElementById('parcel-method-group-2').classList.add('hidden');
+    document.getElementById('parcel-method-divider').classList.add('hidden');
+    document.getElementById('parcel-add-method-btn').classList.remove('hidden');
+    // Restore all method options in group 1
+    document.getElementById('parcel-edit-method-select').querySelectorAll('.custom-select-option').forEach(o => {
+      o.style.display = '';
+    });
+    parcelEditChanged = true;
+    checkParcelEditValid();
+  }
+
+  function addParcelCardMethod(region) {
+    document.getElementById(`parcel-add-${region}`).classList.add('hidden');
+    document.getElementById(`parcel-divider-${region}`).classList.remove('hidden');
+    document.getElementById(`parcel-express-loading-${region}`).classList.remove('hidden');
+    setTimeout(() => {
+      document.getElementById(`parcel-express-loading-${region}`).classList.add('hidden');
+      const d = parcelData[region];
+      document.getElementById(`parcel-${region}-express-price`).innerHTML = `<strong>${d.expressPrice || d.price}</strong>`;
+      document.getElementById(`parcel-${region}-express-time`).textContent = d.expressTime || '1-3 days';
+      document.getElementById(`parcel-express-resolved-${region}`).classList.remove('hidden');
+      document.getElementById(`parcel-remove-${region}`).classList.remove('hidden');
+    }, 1800);
+  }
+
+  function removeParcelCardMethod(region) {
+    document.getElementById(`parcel-divider-${region}`).classList.add('hidden');
+    document.getElementById(`parcel-express-loading-${region}`).classList.add('hidden');
+    document.getElementById(`parcel-express-resolved-${region}`).classList.add('hidden');
+    document.getElementById(`parcel-remove-${region}`).classList.add('hidden');
+    document.getElementById(`parcel-add-${region}`).classList.remove('hidden');
+  }
+
+  function checkParcelEditValid() {
+    if (!parcelEditChanged) {
+      document.getElementById('parcel-edit-save-btn').disabled = true;
+      return;
+    }
+    function groupValid(groupNum) {
+      const quoteSelectId = groupNum === 1 ? 'parcel-edit-quote-select' : 'parcel-edit-quote-2-select';
+      const activeOpt = document.getElementById(quoteSelectId).querySelector('.custom-select-option.active');
+      const qt = activeOpt ? activeOpt.dataset.value : '1stDibs Quote';
+      if (qt === 'Flat Rate') {
+        const price = document.getElementById(`parcel-g${groupNum}-price-input`).value;
+        const lo = document.getElementById(`parcel-g${groupNum}-time-lo`).value;
+        const hi = document.getElementById(`parcel-g${groupNum}-time-hi`).value;
+        return price !== '' && Number(price) > 0 && lo !== '' && Number(lo) > 0 && hi !== '' && Number(hi) > 0;
+      } else if (qt === 'Free Shipping') {
+        const lo = document.getElementById(`parcel-g${groupNum}-time-lo`).value;
+        const hi = document.getElementById(`parcel-g${groupNum}-time-hi`).value;
+        return lo !== '' && Number(lo) > 0 && hi !== '' && Number(hi) > 0;
+      }
+      return true; // 1stDibs Quote always valid
+    }
+    const group2Visible = !document.getElementById('parcel-method-group-2').classList.contains('hidden');
+    const valid = groupValid(1) && (!group2Visible || groupValid(2));
+    document.getElementById('parcel-edit-save-btn').disabled = !valid;
+  }
+
+  function closeParcelEditModal() {
+    document.getElementById('parcel-edit-overlay').classList.add('hidden');
+    editingParcelRegion = null;
+  }
+
+  function saveParcelEdit() {
+    const r = editingParcelRegion;
+    if (!r) return;
+    parcelData[r].method    = document.getElementById('parcel-edit-method-select').querySelector('.custom-select-value').textContent;
+    parcelData[r].quoteType = document.getElementById('parcel-edit-quote-select').querySelector('.custom-select-value').textContent;
+    // Re-render the card
+    const shortMethod = parcelData[r].method.length > 18 ? parcelData[r].method.slice(0, 16) + '...' : parcelData[r].method;
+    document.getElementById(`parcel-${r}-method`).textContent     = shortMethod;
+    document.getElementById(`parcel-${r}-quote-label`).textContent = parcelData[r].quoteType;
+    closeParcelEditModal();
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('parcel-edit-overlay').addEventListener('click', function(e) {
+      if (e.target === this) closeParcelEditModal();
+    });
+  });
+
+  // ── Handling Time custom dropdown ──────────────────────────────────
+  function pickHandlingTime(optionEl) {
+    const selectEl = document.getElementById('handling-time-select');
+    selectEl.querySelector('.custom-select-value').textContent = optionEl.textContent;
+    selectEl.querySelectorAll('.custom-select-option').forEach(o => o.classList.remove('active'));
+    optionEl.classList.add('active');
+    selectEl.classList.remove('open');
+  }
+
+  // ── Generic legacy modal select picker ────────────────────────────
+  function pickLegacySelect(optionEl, selectId, checkFnName) {
+    const selectEl = document.getElementById(selectId);
+    const valEl = selectEl.querySelector('.custom-select-value');
+    valEl.textContent = optionEl.textContent;
+    valEl.classList.remove('ph');
+    selectEl.querySelectorAll('.custom-select-option').forEach(o => o.classList.remove('active'));
+    optionEl.classList.add('active');
+    selectEl.classList.remove('open');
+    if (checkFnName && window[checkFnName]) window[checkFnName]();
+  }
+
+  function resetLegacySelect(selectId, placeholderText) {
+    const selectEl = document.getElementById(selectId);
+    const valEl = selectEl.querySelector('.custom-select-value');
+    valEl.textContent = placeholderText;
+    valEl.classList.add('ph');
+    selectEl.querySelectorAll('.custom-select-option').forEach(o => o.classList.remove('active'));
+  }
+
+  // ── Change Inventory Location ──────────────────────────────────────
+  const INV_LOCATIONS = [
+    { name: 'Seller Storefront', isDefault: true, localPickup: true,
+      address: '9106 Queen Street, London, E80 3XH',
+      contactName: 'Ed Koren', phone: '5555551234', email: 'ed@gmail.com',
+      selected: false,
+      _fields: { address:'9106 Queen Street', apt:'', country:'United Kingdom', city:'London', state:'', zip:'E80 3XH' } },
+    { name: 'Paris, FR', isDefault: false, localPickup: true,
+      address: '130 rue du Faubourg Saint-Honoré, Paris',
+      contactName: 'Jean Michelle', phone: '5552322115', email: 'jean@gmail.com',
+      selected: false,
+      _fields: { address:'130 rue du Faubourg Saint-Honoré', apt:'', country:'France', city:'Paris', state:'', zip:'' } },
+    { name: 'Brooklyn, NY', isDefault: false, localPickup: true,
+      address: '42 Rochester Avenue, New York, 11233',
+      contactName: 'Paras Memon', phone: '9292889395', email: 'pearmemon@gmail.com',
+      selected: true,
+      _fields: { address:'42 Rochester Avenue', apt:'', country:'United States', city:'New York', state:'NY', zip:'11233' } },
+  ];
+  let invLocSelectedIdx = 0;
+  let editingInvLocIdx = null;
+
+  function openInvLocModal() {
+    invLocSelectedIdx = INV_LOCATIONS.findIndex(l => l.selected);
+    if (invLocSelectedIdx < 0) invLocSelectedIdx = 0;
+    renderInvLocList();
+    document.querySelector('#inv-loc-modal-overlay .modal-legacy').classList.remove('narrow');
+    showScreen('inv-loc-screen-1', 'inv-loc-screen-2');
+    document.getElementById('inv-loc-modal-overlay').classList.remove('hidden');
+  }
+
+  function closeInvLocModal() {
+    document.getElementById('inv-loc-modal-overlay').classList.add('hidden');
+  }
+
+  function renderInvLocList() {
+    const list = document.getElementById('inv-loc-list');
+    list.innerHTML = INV_LOCATIONS.map((loc, i) => `
+      <div class="inv-loc-row${i === invLocSelectedIdx ? ' selected' : ''}" onclick="selectInvLoc(${i})">
+        <div class="inv-loc-col-1">
+          <div class="legacy-radio-dot" style="flex-shrink:0;margin-top:4px"></div>
+          <div>
+            <div class="inv-loc-name">${loc.name}${loc.isDefault ? '<br>(Default)' : ''}</div>
+            ${loc.localPickup ? '<div class="inv-loc-pickup">Offering local pickup</div>' : ''}
+          </div>
+        </div>
+        <div>
+          <div class="inv-loc-address-text">${loc.address}</div>
+          <button class="inv-loc-edit-link" onclick="editInvLoc(event,${i})">Edit</button>
+        </div>
+        <div>
+          ${loc.contactName ? `<div class="inv-loc-contact-text">${loc.contactName}</div>` : ''}
+          ${loc.phone ? `<div class="inv-loc-contact-text">${loc.phone}</div>` : ''}
+          ${loc.email ? `<div class="inv-loc-contact-text">${loc.email}</div>` : ''}
+        </div>
+      </div>`).join('');
+    document.getElementById('inv-loc-save-btn').disabled = false;
+  }
+
+  function selectInvLoc(idx) {
+    invLocSelectedIdx = idx;
+    renderInvLocList();
+  }
+
+  function saveInvLoc() {
+    const loc = INV_LOCATIONS[invLocSelectedIdx];
+    INV_LOCATIONS.forEach(l => l.selected = false);
+    loc.selected = true;
+    const card = document.querySelector('.field-group:first-of-type .listbox-card');
+    if (card) {
+      card.querySelector('.listbox-title').textContent = loc.name + (loc.isDefault ? ' (Default)' : '');
+      const subs = card.querySelectorAll('.listbox-sub');
+      if (subs[0]) subs[0].textContent = loc.address || '';
+      const contact = [loc.contactName, loc.phone, loc.email].filter(Boolean).join(' - ');
+      if (subs[1]) subs[1].textContent = contact;
+    }
+    closeInvLocModal();
+    // Recalculate parcel quotes if currently showing — origin affects pricing
+    if (currentState === 'parcel') checkDimensions();
+  }
+
+  function showInvLocForm() {
+    editingInvLocIdx = null;
+    ['inv-loc-name','inv-loc-address','inv-loc-apt','inv-loc-city','inv-loc-state','inv-loc-zip',
+     'inv-loc-contact-name','inv-loc-phone','inv-loc-email'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+    document.getElementById('inv-loc-local-pickup').checked = false;
+    resetLegacySelect('inv-loc-country-select', 'Country');
+    document.getElementById('inv-loc-form-title').textContent = 'Add Inventory Location';
+    document.getElementById('inv-loc-add-btn').disabled = true;
+    document.querySelector('#inv-loc-modal-overlay .modal-legacy').classList.add('narrow');
+    showScreen('inv-loc-screen-2', 'inv-loc-screen-1');
+  }
+
+  function editInvLoc(event, idx) {
+    event.stopPropagation();
+    editingInvLocIdx = idx;
+    const loc = INV_LOCATIONS[idx];
+    const f = loc._fields || {};
+    document.getElementById('inv-loc-name').value         = loc.name || '';
+    document.getElementById('inv-loc-address').value      = f.address || '';
+    document.getElementById('inv-loc-apt').value          = f.apt || '';
+    document.getElementById('inv-loc-city').value         = f.city || '';
+    document.getElementById('inv-loc-state').value        = f.state || '';
+    document.getElementById('inv-loc-zip').value          = f.zip || '';
+    document.getElementById('inv-loc-contact-name').value = loc.contactName || '';
+    document.getElementById('inv-loc-phone').value        = loc.phone || '';
+    document.getElementById('inv-loc-email').value        = loc.email || '';
+    document.getElementById('inv-loc-local-pickup').checked = !!loc.localPickup;
+    // Set country dropdown
+    const countryEl = document.getElementById('inv-loc-country-select');
+    const valEl = countryEl.querySelector('.custom-select-value');
+    const country = f.country || '';
+    valEl.textContent = country || 'Country';
+    valEl.classList.toggle('ph', !country);
+    countryEl.querySelectorAll('.custom-select-option').forEach(o => {
+      o.classList.toggle('active', o.textContent === country);
+    });
+    document.getElementById('inv-loc-form-title').textContent = 'Edit Inventory Location';
+    document.getElementById('inv-loc-add-btn').disabled = false;
+    document.querySelector('#inv-loc-modal-overlay .modal-legacy').classList.add('narrow');
+    showScreen('inv-loc-screen-2', 'inv-loc-screen-1');
+  }
+
+  function showInvLocList() {
+    document.querySelector('#inv-loc-modal-overlay .modal-legacy').classList.remove('narrow');
+    showScreen('inv-loc-screen-1', 'inv-loc-screen-2');
+  }
+
+  function checkInvLocForm() {
+    const name    = document.getElementById('inv-loc-name').value.trim();
+    const address = document.getElementById('inv-loc-address').value.trim();
+    const country = document.getElementById('inv-loc-country-select').querySelector('.custom-select-value').textContent.trim();
+    const city    = document.getElementById('inv-loc-city').value.trim();
+    const zip     = document.getElementById('inv-loc-zip').value.trim();
+    document.getElementById('inv-loc-add-btn').disabled = !(name && address && country && city && zip);
+  }
+
+  function saveNewInvLoc() {
+    const name        = document.getElementById('inv-loc-name').value.trim();
+    const address     = document.getElementById('inv-loc-address').value.trim();
+    const apt         = document.getElementById('inv-loc-apt').value.trim();
+    const country     = document.getElementById('inv-loc-country-select').querySelector('.custom-select-value').textContent.trim();
+    const city        = document.getElementById('inv-loc-city').value.trim();
+    const state       = document.getElementById('inv-loc-state').value.trim();
+    const zip         = document.getElementById('inv-loc-zip').value.trim();
+    const contactName = document.getElementById('inv-loc-contact-name').value.trim();
+    const phone       = document.getElementById('inv-loc-phone').value.trim();
+    const email       = document.getElementById('inv-loc-email').value.trim();
+    const localPickup = document.getElementById('inv-loc-local-pickup').checked;
+    const fullAddress = [address, apt ? apt : null, city, state ? state : null, zip, country].filter(Boolean).join(', ');
+    const locData = { name, isDefault: false, localPickup, address: fullAddress,
+      contactName, phone, email, selected: false,
+      _fields: { address, apt, country, city, state, zip } };
+    if (editingInvLocIdx !== null) {
+      locData.isDefault = INV_LOCATIONS[editingInvLocIdx].isDefault;
+      locData.selected  = INV_LOCATIONS[editingInvLocIdx].selected;
+      INV_LOCATIONS[editingInvLocIdx] = locData;
+    } else {
+      INV_LOCATIONS.push(locData);
+      invLocSelectedIdx = INV_LOCATIONS.length - 1;
+    }
+    editingInvLocIdx = null;
+    renderInvLocList();
+    showInvLocList();
+  }
+
+  // ── Change Return Policy ───────────────────────────────────────────
+  const RET_POLICIES = [
+    { name: 'All Sales Final',          accepts: false, days: '',                     coverage: '',       additional: '', selected: true  },
+    { name: 'Accepts Returns (3 Days)', accepts: true,  days: '3 days (recommended)', coverage: 'buyer',  additional: '', selected: false },
+    { name: 'Accepts Returns (7 Days)', accepts: true,  days: '7 days',               coverage: 'seller', additional: '', selected: false },
+  ];
+  let retPolSelectedIdx = 0;
+  let editingRetPolIdx = null;
+
+  function getRetPolSub(pol) {
+    if (!pol.accepts) return 'No returns accepted';
+    const days = pol.days.replace(' (recommended)', '');
+    const cov = pol.coverage === 'seller' ? 'Seller pays return shipping' : 'Buyer pays return shipping';
+    return `${days} to initiate · ${cov}`;
+  }
+
+  function openRetPolModal() {
+    retPolSelectedIdx = RET_POLICIES.findIndex(p => p.selected);
+    if (retPolSelectedIdx < 0) retPolSelectedIdx = 0;
+    renderRetPolList();
+    document.querySelector('#ret-pol-modal-overlay .modal-legacy').classList.remove('narrow');
+    showScreen('ret-pol-screen-1', 'ret-pol-screen-2');
+    document.getElementById('ret-pol-modal-overlay').classList.remove('hidden');
+  }
+
+  function closeRetPolModal() {
+    document.getElementById('ret-pol-modal-overlay').classList.add('hidden');
+  }
+
+  function renderRetPolList() {
+    const list = document.getElementById('ret-pol-list');
+    list.innerHTML = RET_POLICIES.map((pol, i) => {
+      const daysDisplay = pol.accepts ? pol.days.replace(' (recommended)', '') : '';
+      const covDisplay  = pol.accepts ? (pol.coverage === 'seller' ? 'Seller pays' : 'Buyer pays') : '';
+      return `
+      <div class="ret-pol-row${i === retPolSelectedIdx ? ' selected' : ''}" onclick="selectRetPol(${i})">
+        <div class="ret-pol-col-name">
+          <div class="legacy-radio-dot"></div>
+          <div class="ret-pol-name-text">${pol.name}</div>
+        </div>
+        <div class="ret-pol-days-text">${daysDisplay}</div>
+        <div class="ret-pol-coverage-text">${covDisplay}</div>
+        <button class="inv-loc-edit-link" onclick="editRetPol(event,${i})">Edit</button>
+      </div>`;
+    }).join('');
+    document.getElementById('ret-pol-save-btn').disabled = false;
+  }
+
+  function selectRetPol(idx) {
+    retPolSelectedIdx = idx;
+    renderRetPolList();
+  }
+
+  function saveRetPol() {
+    const pol = RET_POLICIES[retPolSelectedIdx];
+    RET_POLICIES.forEach(p => p.selected = false);
+    pol.selected = true;
+    // Update the page listbox
+    const cards = document.querySelectorAll('.field-group .listbox-card');
+    const card = cards[1]; // Return Policy is second field-group
+    if (card) {
+      card.querySelector('.listbox-title').textContent = pol.name;
+      card.querySelector('.listbox-sub').textContent = getRetPolSub(pol);
+    }
+    closeRetPolModal();
+  }
+
+  function showRetPolForm() {
+    editingRetPolIdx = null;
+    document.getElementById('ret-pol-name').value = '';
+    document.getElementById('ret-pol-additional').value = '';
+    selectRetPolAccepts('yes');
+    selectRetPolCoverage('seller');
+    // Reset days to default
+    const daysValEl = document.getElementById('ret-pol-days-select').querySelector('.custom-select-value');
+    daysValEl.textContent = '3 days (recommended)';
+    daysValEl.classList.remove('ph');
+    document.getElementById('ret-pol-days-select').querySelectorAll('.custom-select-option').forEach((o, i) => o.classList.toggle('active', i === 0));
+    document.getElementById('ret-pol-form-title').textContent = 'Add Return Policy';
+    document.getElementById('ret-pol-add-btn').disabled = true;
+    document.querySelector('#ret-pol-modal-overlay .modal-legacy').classList.add('narrow');
+    showScreen('ret-pol-screen-2', 'ret-pol-screen-1');
+  }
+
+  function editRetPol(event, idx) {
+    event.stopPropagation();
+    editingRetPolIdx = idx;
+    const pol = RET_POLICIES[idx];
+    document.getElementById('ret-pol-name').value = pol.name;
+    document.getElementById('ret-pol-additional').value = pol.additional || '';
+    selectRetPolAccepts(pol.accepts ? 'yes' : 'no');
+    if (pol.accepts) {
+      selectRetPolCoverage(pol.coverage || 'seller');
+      // Set days dropdown
+      const daysValEl = document.getElementById('ret-pol-days-select').querySelector('.custom-select-value');
+      daysValEl.textContent = pol.days || '3 days (recommended)';
+      daysValEl.classList.remove('ph');
+      document.getElementById('ret-pol-days-select').querySelectorAll('.custom-select-option').forEach(o => {
+        o.classList.toggle('active', o.textContent.trim() === (pol.days || '3 days (recommended)'));
+      });
+    }
+    document.getElementById('ret-pol-form-title').textContent = 'Edit Return Policy';
+    document.getElementById('ret-pol-add-btn').disabled = false;
+    document.querySelector('#ret-pol-modal-overlay .modal-legacy').classList.add('narrow');
+    showScreen('ret-pol-screen-2', 'ret-pol-screen-1');
+  }
+
+  function showRetPolList() {
+    document.querySelector('#ret-pol-modal-overlay .modal-legacy').classList.remove('narrow');
+    showScreen('ret-pol-screen-1', 'ret-pol-screen-2');
+  }
+
+  function selectRetPolAccepts(val) {
+    document.getElementById('ret-pol-accepts-yes').classList.toggle('selected', val === 'yes');
+    document.getElementById('ret-pol-accepts-no').classList.toggle('selected', val === 'no');
+    document.getElementById('ret-pol-days-field').style.display = val === 'yes' ? '' : 'none';
+    document.getElementById('ret-pol-coverage-field').style.display = val === 'yes' ? '' : 'none';
+  }
+
+  function selectRetPolCoverage(val) {
+    document.getElementById('ret-pol-coverage-seller').classList.toggle('selected', val === 'seller');
+    document.getElementById('ret-pol-coverage-buyer').classList.toggle('selected', val === 'buyer');
+  }
+
+  function checkRetPolForm() {
+    const name = document.getElementById('ret-pol-name').value.trim();
+    document.getElementById('ret-pol-add-btn').disabled = !name;
+  }
+
+  function saveNewRetPol() {
+    const name       = document.getElementById('ret-pol-name').value.trim();
+    const accepts    = document.getElementById('ret-pol-accepts-yes').classList.contains('selected');
+    const days       = document.getElementById('ret-pol-days-select').querySelector('.custom-select-value').textContent.trim();
+    const coverage   = document.getElementById('ret-pol-coverage-seller').classList.contains('selected') ? 'seller' : 'buyer';
+    const additional = document.getElementById('ret-pol-additional').value.trim();
+    const entry = { name, accepts, days: accepts ? days : '', coverage: accepts ? coverage : '', additional, selected: false };
+    if (editingRetPolIdx !== null) {
+      entry.selected = RET_POLICIES[editingRetPolIdx].selected;
+      RET_POLICIES[editingRetPolIdx] = entry;
+      if (entry.selected) retPolSelectedIdx = editingRetPolIdx;
+    } else {
+      RET_POLICIES.push(entry);
+      retPolSelectedIdx = RET_POLICIES.length - 1;
+    }
+    editingRetPolIdx = null;
+    renderRetPolList();
+    showRetPolList();
+  }
+
+  // ── Utility: show one screen, hide other ──────────────────────────
+  function showScreen(showId, hideId) {
+    document.getElementById(showId).classList.add('active');
+    document.getElementById(hideId).classList.remove('active');
+  }
+
+  // Close legacy modals on overlay click
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('estimate-modal-overlay').addEventListener('click', function(e) {
+      if (e.target === this) closeEstimateModal();
+    });
+    document.getElementById('inv-loc-modal-overlay').addEventListener('click', function(e) {
+      if (e.target === this) closeInvLocModal();
+    });
+    document.getElementById('ret-pol-modal-overlay').addEventListener('click', function(e) {
+      if (e.target === this) closeRetPolModal();
+    });
+  });
 </script>
+
+<!-- ── Parcel Edit Quote Modal ── -->
+<div id="parcel-edit-overlay" class="modal-overlay hidden">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="parcel-edit-title">Edit Quote for United States</span>
+      <button class="modal-close" onclick="closeParcelEditModal()">
+        <img src="Close.svg" width="24" height="24" alt="Close">
+      </button>
+    </div>
+    <div class="modal-body">
+      <!-- Location (disabled) -->
+      <div class="modal-field">
+        <label class="modal-label">Location</label>
+        <div class="custom-select cs-disabled">
+          <div class="custom-select-trigger">
+            <span class="custom-select-value" id="parcel-edit-location-val">United States</span>
+            <img class="custom-select-chevron" src="Down icon.svg" alt="">
+          </div>
+        </div>
+      </div>
+
+      <!-- Method group 1 -->
+      <div id="parcel-method-group-1" class="parcel-method-group">
+        <div class="modal-field">
+          <label class="modal-label">Shipping Method</label>
+          <div class="custom-select" id="parcel-edit-method-select">
+            <div class="custom-select-trigger" onclick="toggleCustomSelect('parcel-edit-method-select')">
+              <span class="custom-select-value">DHL Standard Parcel (5-14 Days)</span>
+              <img class="custom-select-chevron" src="Down icon.svg" alt="">
+            </div>
+            <div class="custom-select-dropdown">
+              <div class="custom-select-option active" data-type="standard" onclick="pickParcelMethodOption(this,'parcel-edit-method-select',1)">DHL Standard Parcel (5-14 Days)</div>
+              <div class="custom-select-option" data-type="express" onclick="pickParcelMethodOption(this,'parcel-edit-method-select',1)">DHL Express Parcel (1-3 Days)</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-field">
+          <label class="modal-label">Shipping Quote</label>
+          <div class="custom-select" id="parcel-edit-quote-select">
+            <div class="custom-select-trigger" onclick="toggleCustomSelect('parcel-edit-quote-select')">
+              <span class="custom-select-value">1stDibs Quote</span>
+              <img class="custom-select-chevron" src="Down icon.svg" alt="">
+            </div>
+            <div class="custom-select-dropdown">
+              <div class="custom-select-option active" data-value="1stDibs Quote" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-select',1)">
+                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title">1stDibs Quote</span><span class="pq-option-price" id="pq-1-price">$50-$100</span></div><div class="pq-option-sub">We calculate shipping quote for you</div></div>
+              </div>
+              <div class="custom-select-option" data-value="Flat Rate" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-select',1)">
+                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title">Flat Rate</span></div><div class="pq-option-sub">Set your own shipping price</div></div>
+              </div>
+              <div class="custom-select-option" data-value="Free Shipping" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-select',1)">
+                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title free">Free Shipping</span></div><div class="pq-option-sub">You absorb the shipping cost</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 1stDibs Quote price (default visible) -->
+        <div class="modal-field" id="parcel-g1-1stdibs-price">
+          <label class="modal-label">Shipping Price</label>
+          <div>
+            <div class="modal-price-display" id="parcel-edit-price-display">$50-$100</div>
+            <p class="modal-helper" style="margin-top:2px">Final shipping cost is based on buyer's location.</p>
+          </div>
+        </div>
+        <!-- Flat Rate price input (hidden) -->
+        <div class="modal-field hidden" id="parcel-g1-flatrate-price">
+          <label class="modal-label">Shipping Price</label>
+          <div class="modal-price-input">
+            <span class="modal-price-prefix">$</span>
+            <input type="number" id="parcel-g1-price-input" placeholder="0" min="0" oninput="checkParcelEditValid()">
+            <span class="modal-price-suffix">USD</span>
+          </div>
+          <p class="modal-helper" style="margin-top:5px">Buyers will pay this flat rate that you set.</p>
+        </div>
+        <!-- Free Shipping price (hidden) -->
+        <div class="modal-field hidden" id="parcel-g1-free-price">
+          <label class="modal-label">Shipping Price</label>
+          <div>
+            <div class="modal-price-display">$0</div>
+            <p class="modal-helper" style="margin-top:2px">You absorb the shipping cost.</p>
+          </div>
+        </div>
+        <!-- Shipping Time (shown for Flat Rate / Free) -->
+        <div class="modal-field hidden" id="parcel-g1-time">
+          <label class="modal-label">Shipping Time</label>
+          <div class="modal-time-row">
+            <div class="modal-time-input"><input type="number" id="parcel-g1-time-lo" placeholder="0" min="0" oninput="checkParcelEditValid()"><span class="modal-time-unit">days</span></div>
+            <span class="modal-time-to">to</span>
+            <div class="modal-time-input"><input type="number" id="parcel-g1-time-hi" placeholder="0" min="0" oninput="checkParcelEditValid()"><span class="modal-time-unit">days</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <hr class="parcel-method-divider hidden" id="parcel-method-divider">
+
+      <!-- Method group 2 (hidden by default) -->
+      <div id="parcel-method-group-2" class="parcel-method-group hidden">
+        <div class="modal-field">
+          <label class="modal-label">Shipping Method</label>
+          <div class="custom-select" id="parcel-edit-method-2-select">
+            <div class="custom-select-trigger" onclick="toggleCustomSelect('parcel-edit-method-2-select')">
+              <span class="custom-select-value">DHL Express Parcel (1-3 Days)</span>
+              <img class="custom-select-chevron" src="Down icon.svg" alt="">
+            </div>
+            <div class="custom-select-dropdown">
+              <div class="custom-select-option" data-type="standard" onclick="pickParcelMethodOption(this,'parcel-edit-method-2-select',2)">DHL Standard Parcel (5-14 Days)</div>
+              <div class="custom-select-option active" data-type="express" onclick="pickParcelMethodOption(this,'parcel-edit-method-2-select',2)">DHL Express Parcel (1-3 Days)</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-field">
+          <label class="modal-label">Shipping Quote</label>
+          <div class="custom-select" id="parcel-edit-quote-2-select">
+            <div class="custom-select-trigger" onclick="toggleCustomSelect('parcel-edit-quote-2-select')">
+              <span class="custom-select-value">1stDibs Quote</span>
+              <img class="custom-select-chevron" src="Down icon.svg" alt="">
+            </div>
+            <div class="custom-select-dropdown">
+              <div class="custom-select-option active" data-value="1stDibs Quote" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-2-select',2)">
+                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title">1stDibs Quote</span><span class="pq-option-price" id="pq-2-price">$50-$100</span></div><div class="pq-option-sub">We calculate shipping quote for you</div></div>
+              </div>
+              <div class="custom-select-option" data-value="Flat Rate" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-2-select',2)">
+                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title">Flat Rate</span></div><div class="pq-option-sub">Set your own shipping price</div></div>
+              </div>
+              <div class="custom-select-option" data-value="Free Shipping" onclick="pickParcelQuoteOption(this,'parcel-edit-quote-2-select',2)">
+                <div class="pq-option"><div class="pq-option-row"><span class="pq-option-title free">Free Shipping</span></div><div class="pq-option-sub">You absorb the shipping cost</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-field" id="parcel-g2-1stdibs-price">
+          <label class="modal-label">Shipping Price</label>
+          <div>
+            <div class="modal-price-display" id="parcel-edit-price-2-display">$50-$100</div>
+            <p class="modal-helper" style="margin-top:2px">Final shipping cost is based on buyer's location.</p>
+          </div>
+        </div>
+        <div class="modal-field hidden" id="parcel-g2-flatrate-price">
+          <label class="modal-label">Shipping Price</label>
+          <div class="modal-price-input">
+            <span class="modal-price-prefix">$</span>
+            <input type="number" id="parcel-g2-price-input" placeholder="0" min="0" oninput="checkParcelEditValid()">
+            <span class="modal-price-suffix">USD</span>
+          </div>
+          <p class="modal-helper" style="margin-top:5px">Buyers will pay this flat rate that you set.</p>
+        </div>
+        <div class="modal-field hidden" id="parcel-g2-free-price">
+          <label class="modal-label">Shipping Price</label>
+          <div>
+            <div class="modal-price-display">$0</div>
+            <p class="modal-helper" style="margin-top:2px">You absorb the shipping cost.</p>
+          </div>
+        </div>
+        <div class="modal-field hidden" id="parcel-g2-time">
+          <label class="modal-label">Shipping Time</label>
+          <div class="modal-time-row">
+            <div class="modal-time-input"><input type="number" id="parcel-g2-time-lo" placeholder="0" min="0" oninput="checkParcelEditValid()"><span class="modal-time-unit">days</span></div>
+            <span class="modal-time-to">to</span>
+            <div class="modal-time-input"><input type="number" id="parcel-g2-time-hi" placeholder="0" min="0" oninput="checkParcelEditValid()"><span class="modal-time-unit">days</span></div>
+          </div>
+        </div>
+        <button class="parcel-remove-method-link" onclick="removeParcelMethod()">- Remove Shipping Method</button>
+      </div>
+
+      <!-- Add shipping method link -->
+      <button class="modal-add-method-link" id="parcel-add-method-btn" onclick="addParcelMethod()">+ Add Shipping Method</button>
+    </div>
+    <div class="modal-footer">
+      <div class="modal-footer-right">
+        <button class="modal-cancel" onclick="closeParcelEditModal()">Cancel</button>
+        <button class="modal-save" id="parcel-edit-save-btn" onclick="saveParcelEdit()" disabled>Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Change Inventory Location Modal ── -->
+<div id="inv-loc-modal-overlay" class="modal-overlay hidden">
+  <div class="modal-legacy">
+
+    <!-- Screen 1: List -->
+    <div class="legacy-screen active" id="inv-loc-screen-1">
+      <div class="modal-legacy-header">
+        <span class="modal-legacy-title">Change Location</span>
+        <button class="modal-close" onclick="closeInvLocModal()">
+          <img src="Close.svg" width="24" height="24" alt="Close">
+        </button>
+      </div>
+      <div class="modal-legacy-body">
+        <div class="legacy-radio-list" id="inv-loc-list"></div>
+        <div>
+          <button class="modal-legacy-add-pill" onclick="showInvLocForm()">
+            <img src="PlusCircle.svg" width="20" height="20" alt="">
+            Add Inventory Location
+          </button>
+        </div>
+      </div>
+      <div class="modal-legacy-footer">
+        <button class="modal-legacy-save" id="inv-loc-save-btn" onclick="saveInvLoc()" disabled>Save</button>
+        <button class="modal-legacy-cancel" onclick="closeInvLocModal()">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Screen 2: Add form -->
+    <div class="legacy-screen" id="inv-loc-screen-2">
+      <div class="modal-legacy-header">
+        <button class="modal-legacy-back" onclick="showInvLocList()">
+          <img src="Down icon.svg" width="24" height="24" alt="Back" style="transform:rotate(90deg)">
+        </button>
+        <span class="modal-legacy-title" id="inv-loc-form-title">Add Inventory Location</span>
+        <button class="modal-close" onclick="closeInvLocModal()">
+          <img src="Close.svg" width="24" height="24" alt="Close">
+        </button>
+      </div>
+      <div class="modal-legacy-body">
+        <div class="legacy-form-field">
+          <input class="legacy-form-input" id="inv-loc-name" type="text" placeholder="Name *" oninput="checkInvLocForm()">
+        </div>
+        <div class="legacy-form-field">
+          <input class="legacy-form-input" id="inv-loc-address" type="text" placeholder="Address *" oninput="checkInvLocForm()">
+        </div>
+        <div class="legacy-form-field">
+          <input class="legacy-form-input" id="inv-loc-apt" type="text" placeholder="Apt, suite, etc. (optional)">
+        </div>
+        <div class="legacy-form-field">
+          <div class="custom-select" id="inv-loc-country-select">
+            <div class="custom-select-trigger" onclick="toggleCustomSelect('inv-loc-country-select')">
+              <span class="custom-select-value ph">Country</span>
+              <img class="custom-select-chevron" src="Down icon.svg" alt="">
+            </div>
+            <div class="custom-select-dropdown">
+              <div class="custom-select-option" onclick="pickLegacySelect(this,'inv-loc-country-select','checkInvLocForm')">United States</div>
+              <div class="custom-select-option" onclick="pickLegacySelect(this,'inv-loc-country-select','checkInvLocForm')">Canada</div>
+              <div class="custom-select-option" onclick="pickLegacySelect(this,'inv-loc-country-select','checkInvLocForm')">United Kingdom</div>
+              <div class="custom-select-option" onclick="pickLegacySelect(this,'inv-loc-country-select','checkInvLocForm')">France</div>
+              <div class="custom-select-option" onclick="pickLegacySelect(this,'inv-loc-country-select','checkInvLocForm')">Germany</div>
+              <div class="custom-select-option" onclick="pickLegacySelect(this,'inv-loc-country-select','checkInvLocForm')">Australia</div>
+              <div class="custom-select-option" onclick="pickLegacySelect(this,'inv-loc-country-select','checkInvLocForm')">Japan</div>
+            </div>
+          </div>
+        </div>
+        <div class="legacy-form-row">
+          <div class="legacy-form-field">
+            <input class="legacy-form-input" id="inv-loc-city" type="text" placeholder="City *" oninput="checkInvLocForm()">
+          </div>
+          <div class="legacy-form-field">
+            <input class="legacy-form-input" id="inv-loc-state" type="text" placeholder="State or Region (optional)">
+          </div>
+        </div>
+        <div class="legacy-form-field">
+          <input class="legacy-form-input" id="inv-loc-zip" type="text" placeholder="Zip Code *" oninput="checkInvLocForm()">
+        </div>
+        <div class="legacy-form-field">
+          <input class="legacy-form-input" id="inv-loc-contact-name" type="text" placeholder="Contact Name (optional)">
+        </div>
+        <div class="legacy-form-row">
+          <div class="legacy-form-field">
+            <input class="legacy-form-input" id="inv-loc-phone" type="text" placeholder="Phone (optional)">
+          </div>
+          <div class="legacy-form-field">
+            <input class="legacy-form-input" id="inv-loc-email" type="email" placeholder="Email (optional)">
+          </div>
+        </div>
+        <label class="legacy-check-row">
+          <input class="legacy-check-input" type="checkbox" id="inv-loc-local-pickup">
+          <span class="legacy-check-label">Offering local pickup</span>
+        </label>
+      </div>
+      <div class="modal-legacy-footer">
+        <button class="modal-legacy-save" id="inv-loc-add-btn" onclick="saveNewInvLoc()" disabled>Save</button>
+        <button class="modal-legacy-cancel" onclick="showInvLocList()">Cancel</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── Change Return Policy Modal ── -->
+<div id="ret-pol-modal-overlay" class="modal-overlay hidden">
+  <div class="modal-legacy">
+
+    <!-- Screen 1: List -->
+    <div class="legacy-screen active" id="ret-pol-screen-1">
+      <div class="modal-legacy-header">
+        <span class="modal-legacy-title">Change Policy</span>
+        <button class="modal-close" onclick="closeRetPolModal()">
+          <img src="Close.svg" width="24" height="24" alt="Close">
+        </button>
+      </div>
+      <div class="modal-legacy-body">
+        <div class="ret-pol-list-wrap">
+          <div id="ret-pol-list"></div>
+        </div>
+        <div>
+          <button class="modal-legacy-add-pill" onclick="showRetPolForm()">
+            <img src="PlusCircle.svg" width="20" height="20" alt="">
+            Add New Policy
+          </button>
+        </div>
+      </div>
+      <div class="modal-legacy-footer">
+        <button class="modal-legacy-save" id="ret-pol-save-btn" onclick="saveRetPol()" disabled>Save</button>
+        <button class="modal-legacy-cancel" onclick="closeRetPolModal()">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Screen 2: Add form -->
+    <div class="legacy-screen" id="ret-pol-screen-2">
+      <div class="modal-legacy-header">
+        <button class="modal-legacy-back" onclick="showRetPolList()">
+          <img src="Down icon.svg" width="24" height="24" alt="Back" style="transform:rotate(90deg)">
+        </button>
+        <span class="modal-legacy-title" id="ret-pol-form-title">Add Return Policy</span>
+        <button class="modal-close" onclick="closeRetPolModal()">
+          <img src="Close.svg" width="24" height="24" alt="Close">
+        </button>
+      </div>
+      <div class="modal-legacy-body">
+        <p class="legacy-info-text">All listings must have a return policy. You can save up to five unique policies to select from.</p>
+
+        <div class="legacy-form-field">
+          <div class="legacy-field-label">Policy Name *</div>
+          <input class="legacy-form-input" id="ret-pol-name" type="text" placeholder="e.g. Standard 14-Day Return Policy" oninput="checkRetPolForm()">
+        </div>
+
+        <div class="legacy-form-field">
+          <div class="legacy-field-label">Are returns accepted under this policy? *</div>
+          <div class="legacy-inline-radios">
+            <div class="legacy-inline-radio selected" id="ret-pol-accepts-yes" onclick="selectRetPolAccepts('yes')">
+              <div class="legacy-inline-dot"></div>
+              Yes
+            </div>
+            <div class="legacy-inline-radio" id="ret-pol-accepts-no" onclick="selectRetPolAccepts('no')">
+              <div class="legacy-inline-dot"></div>
+              No
+            </div>
+          </div>
+        </div>
+
+        <div class="legacy-form-field" id="ret-pol-days-field">
+          <div class="legacy-field-label">Within how many days must a customer initiate a return after receiving the piece? *</div>
+          <div class="custom-select" id="ret-pol-days-select">
+            <div class="custom-select-trigger" onclick="toggleCustomSelect('ret-pol-days-select')">
+              <span class="custom-select-value">3 days (recommended)</span>
+              <img class="custom-select-chevron" src="Down icon.svg" alt="">
+            </div>
+            <div class="custom-select-dropdown">
+              <div class="custom-select-option active" onclick="pickLegacySelect(this,'ret-pol-days-select','checkRetPolForm')">3 days (recommended)</div>
+              <div class="custom-select-option" onclick="pickLegacySelect(this,'ret-pol-days-select','checkRetPolForm')">7 days</div>
+              <div class="custom-select-option" onclick="pickLegacySelect(this,'ret-pol-days-select','checkRetPolForm')">14 days</div>
+              <div class="custom-select-option" onclick="pickLegacySelect(this,'ret-pol-days-select','checkRetPolForm')">30 days</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="legacy-form-field" id="ret-pol-coverage-field">
+          <div class="legacy-field-label">Who covers the return shipping cost? *</div>
+          <div class="legacy-inline-radios">
+            <div class="legacy-inline-radio selected" id="ret-pol-coverage-seller" onclick="selectRetPolCoverage('seller')">
+              <div class="legacy-inline-dot"></div>
+              I do
+            </div>
+            <div class="legacy-inline-radio" id="ret-pol-coverage-buyer" onclick="selectRetPolCoverage('buyer')">
+              <div class="legacy-inline-dot"></div>
+              Customer does
+            </div>
+          </div>
+        </div>
+
+        <div class="legacy-form-field">
+          <div class="legacy-field-label">Additional Information <span>(Optional)</span></div>
+          <textarea class="legacy-textarea" id="ret-pol-additional" placeholder="Provide additional details to buyers about your return policy."></textarea>
+        </div>
+      </div>
+      <div class="modal-legacy-footer">
+        <button class="modal-legacy-save" id="ret-pol-add-btn" onclick="saveNewRetPol()" disabled>Save</button>
+        <button class="modal-legacy-cancel" onclick="showRetPolList()">Cancel</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── Estimate Packing Dimensions Modal ── -->
+<div id="estimate-modal-overlay" class="modal-overlay hidden">
+  <div class="modal-legacy narrow">
+    <div class="modal-legacy-header">
+      <span class="modal-legacy-title">Estimate Packing Dimensions</span>
+      <button class="modal-close" onclick="closeEstimateModal()">
+        <img src="Close.svg" width="24" height="24" alt="Close">
+      </button>
+    </div>
+    <div class="modal-legacy-body" style="gap: var(--sp-27)">
+      <div class="estimate-info-banner">
+        <img src="InfoCircle.svg" width="20" height="20" alt="" style="flex-shrink:0;margin-top:1px">
+        <p>Estimated packing dimensions are based on the entered item dimensions and weight. Please ensure your dimensions are accurate.</p>
+      </div>
+      <label class="estimate-checkbox-row">
+        <input type="checkbox" class="estimate-checkbox-input" id="estimate-checkbox" onchange="toggleEstimateBtn()">
+        <span class="estimate-checkbox-custom"></span>
+        <span class="estimate-checkbox-label">I understand that by not providing packing dimensions, the final shipping cost may be inaccurate and reduce the chance of a sale.</span>
+      </label>
+    </div>
+    <div class="modal-legacy-footer">
+      <button class="modal-legacy-save" id="estimate-use-btn" onclick="confirmEstimateDims()" disabled>Use Approximate Dimensions</button>
+      <button class="modal-legacy-cancel" onclick="closeEstimateModal()">Cancel</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
