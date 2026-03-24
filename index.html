@@ -2817,8 +2817,14 @@ body {
       }
       if (fl > 0 && fw > 0 && fh > 0 && fwt > 0) {
         if (isParcel(fl, fw, fh, fwt)) {
-          // Still parcel: refresh only 1stDibs regions, seller quotes untouched
-          updateParcelQuotes(fl, fw, fh, fwt);
+          // Still parcel: sum weight across all filled parcel packages, refresh only 1stDibs regions
+          const totalWt = pkgWrapsAll.reduce((sum, wrap) => {
+            const inputs = Array.from(wrap.querySelectorAll('input[type="number"]')).slice(0, 4);
+            const [pl, pw, ph, pwt] = inputs.map(i => parseFloat(i.value) || 0);
+            return (pl > 0 && pw > 0 && ph > 0 && pwt > 0 && isParcel(pl, pw, ph, pwt))
+              ? sum + pwt : sum;
+          }, 0);
+          updateParcelQuotes(fl, fw, fh, totalWt);
         } else {
           // Crossed into freight: move seller-set parcel quotes to custom cards, generate freight
           migrateSellerParcelQuotesToCustomCards();
@@ -2873,19 +2879,21 @@ body {
         return defaultLoading; // mixed — use first-filled type
       }
       if (fromTyping) {
-        // Parcel + can pack: generate quote from first fully-filled package
+        // Parcel + can pack: generate quote using first package dims, summed weight across all parcel packages
         if (currentAnswer === 'yes') {
-          const firstFilled = pkgsWithData.find(wrap =>
-            Array.from(wrap.querySelectorAll('input[type="number"]')).every(inp => parseFloat(inp.value) > 0)
-          );
-          if (firstFilled) {
-            const inputs = Array.from(firstFilled.querySelectorAll('input[type="number"]')).slice(0, 4);
-            const [fl, fw, fh, fwt] = inputs.map(i => parseFloat(i.value) || 0);
-            if (isParcel(fl, fw, fh, fwt)) {
-              showState('parcel-loading');
-              calcTimer = setTimeout(() => updateParcelQuotes(fl, fw, fh, fwt), 1800);
-              return;
-            }
+          const filledParcel = pkgsWithData.filter(wrap => {
+            const inputs = Array.from(wrap.querySelectorAll('input[type="number"]')).slice(0, 4);
+            const [pl, pw, ph, pwt] = inputs.map(i => parseFloat(i.value) || 0);
+            return pl > 0 && pw > 0 && ph > 0 && pwt > 0 && isParcel(pl, pw, ph, pwt);
+          });
+          if (filledParcel.length > 0) {
+            const firstInputs = Array.from(filledParcel[0].querySelectorAll('input[type="number"]')).slice(0, 4);
+            const [fl, fw, fh] = firstInputs.map(i => parseFloat(i.value) || 0);
+            const totalWt = filledParcel.reduce((sum, wrap) =>
+              sum + (parseFloat(wrap.querySelectorAll('input[type="number"]')[3].value) || 0), 0);
+            showState('parcel-loading');
+            calcTimer = setTimeout(() => updateParcelQuotes(fl, fw, fh, totalWt), 1800);
+            return;
           }
         }
         // Freight multi-package or parcel + cannot pack → error
@@ -3378,7 +3386,7 @@ body {
       card.dataset.daysFrom = timeLo;
       card.dataset.daysTo   = timeHi;
       const priceDisplay = quoteType === 'Free Shipping'
-        ? '<strong>Free</strong>'
+        ? '<strong>$0.00</strong>'
         : `<strong>$${parseFloat(price).toFixed(2)}</strong>`;
       card.innerHTML = `
         <div class="custom-quote-header">
@@ -3738,7 +3746,7 @@ body {
       document.getElementById(`parcel-${r}-price`).innerHTML       = `<strong>$${parcelData[r].customPrice.toFixed(2)}</strong>`;
       document.getElementById(`parcel-${r}-time`).textContent      = `${parcelData[r].customTimeLo}-${parcelData[r].customTimeHi} days`;
     } else if (qt1 === 'Free Shipping') {
-      document.getElementById(`parcel-${r}-price`).innerHTML       = `<strong>Free</strong>`;
+      document.getElementById(`parcel-${r}-price`).innerHTML       = `<strong>$0.00</strong>`;
       document.getElementById(`parcel-${r}-time`).textContent      = `${parcelData[r].customTimeLo}-${parcelData[r].customTimeHi} days`;
     }
     closeParcelEditModal();
