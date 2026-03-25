@@ -896,6 +896,21 @@ body {
 }
 .add-own-quote-btn:hover { background: #f9f9f9; }
 
+.inv-quotes-link {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: var(--sp-9) 0 0;
+  font-family: var(--font-2);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--color-blue-600);
+  cursor: pointer;
+  text-align: center;
+}
+.inv-quotes-link:hover { text-decoration: underline; }
+
 /* ── Calculating animation ───────────────────────────────────────── */
 @keyframes blink {
   0%, 100% { opacity: 1; }
@@ -2711,6 +2726,7 @@ body {
           <img src="PlusCircle.svg" alt="" width="20" height="20">
           Add Your Own Quote
         </button>
+        <button class="inv-quotes-link hidden" id="inv-quotes-link" onclick="loadInventoryQuotes()"></button>
       </div>
 
     </div><!-- /col-right -->
@@ -3853,7 +3869,7 @@ body {
     { name: 'Seller Storefront', isDefault: true, localPickup: true,
       address: '9106 Queen Street, London, E80 3XH',
       contactName: 'Ed Koren', phone: '5555551234', email: 'ed@gmail.com',
-      selected: false,
+      selected: true,
       _fields: { address:'9106 Queen Street', apt:'', country:'United Kingdom', city:'London', state:'', zip:'E80 3XH' } },
     { name: 'Paris, FR', isDefault: false, localPickup: true,
       address: '130 rue du Faubourg Saint-Honoré, Paris',
@@ -3863,11 +3879,86 @@ body {
     { name: 'Brooklyn, NY', isDefault: false, localPickup: true,
       address: '42 Rochester Avenue, New York, 11233',
       contactName: 'Paras Memon', phone: '9292889395', email: 'pearmemon@gmail.com',
-      selected: true,
+      selected: false,
       _fields: { address:'42 Rochester Avenue', apt:'', country:'United States', city:'New York', state:'NY', zip:'11233' } },
   ];
   let invLocSelectedIdx = 0;
   let editingInvLocIdx = null;
+
+  // Pre-set quotes available per inventory location
+  const INVENTORY_LOCATION_QUOTES = {
+    'Seller Storefront': [
+      { location: 'United States', method: 'In-Home Shipping', timeLo: 1, timeHi: 3, price: 35 }
+    ],
+    'Paris, FR': [
+      { location: 'United States', method: 'In-Home Shipping', timeLo: 1, timeHi: 3, price: 50 },
+      { location: 'Australia',     method: 'In-Home Shipping', timeLo: 1, timeHi: 3, price: 50 }
+    ]
+  };
+
+  function updateInvQuotesLink() {
+    const loc = INV_LOCATIONS.find(l => l.selected) || INV_LOCATIONS[0];
+    const quotes = INVENTORY_LOCATION_QUOTES[loc.name] || [];
+    const link = document.getElementById('inv-quotes-link');
+    if (quotes.length === 0) {
+      link.classList.add('hidden');
+    } else {
+      const n = quotes.length;
+      link.textContent = `+ Add ${n} Quote${n !== 1 ? 's' : ''} Available for This Inventory Location`;
+      link.classList.remove('hidden');
+    }
+  }
+
+  function loadInventoryQuotes() {
+    const loc = INV_LOCATIONS.find(l => l.selected) || INV_LOCATIONS[0];
+    const quotes = INVENTORY_LOCATION_QUOTES[loc.name] || [];
+    const list = document.getElementById('custom-quotes-list');
+    quotes.forEach(q => {
+      const card = document.createElement('div');
+      card.className = 'custom-quote-card';
+      card.dataset.source   = 'inventory';
+      card.dataset.location = q.location;
+      card.dataset.method   = q.method;
+      card.dataset.price    = q.price;
+      card.dataset.daysFrom = q.timeLo;
+      card.dataset.daysTo   = q.timeHi;
+      const quoteType    = q.price === 0 ? 'Free Shipping' : 'Flat Rate';
+      const priceDisplay = q.price === 0 ? '<strong>$0.00</strong>' : `<strong>$${q.price.toFixed(2)}</strong>`;
+      card.innerHTML = `
+        <div class="custom-quote-header">
+          <div class="region-name" style="margin-bottom:0">
+            <img src="globe.svg" alt="" width="18" height="18">
+            ${q.location}
+          </div>
+          <div class="meatball-menu-wrap">
+            <button class="three-dot-btn" onclick="toggleMeatball(this)" title="Options">
+              <img src="hamburger menu.svg" width="20" height="20" alt="Options">
+            </button>
+            <div class="meatball-popover">
+              <div class="popover-option" onclick="editQuote(this)">Edit</div>
+              <div class="popover-option danger" onclick="deleteQuote(this)">Delete</div>
+            </div>
+          </div>
+        </div>
+        <div class="region-cols-3">
+          <div>
+            <div class="region-col-label">Shipping Method</div>
+            <div class="region-col-value">${q.method}</div>
+          </div>
+          <div>
+            <div class="region-col-label">Shipping Time</div>
+            <div class="region-col-value">${q.timeLo}-${q.timeHi} days</div>
+          </div>
+          <div>
+            <div class="region-col-label">Buyer Will Pay</div>
+            <div class="region-col-value">${priceDisplay}</div>
+            <div class="region-col-sub">${quoteType}</div>
+          </div>
+        </div>`;
+      list.appendChild(card);
+    });
+    document.getElementById('inv-quotes-link').classList.add('hidden');
+  }
 
   function openInvLocModal() {
     invLocSelectedIdx = INV_LOCATIONS.findIndex(l => l.selected);
@@ -3923,6 +4014,9 @@ body {
       const contact = [loc.contactName, loc.phone, loc.email].filter(Boolean).join(' - ');
       if (subs[1]) subs[1].textContent = contact;
     }
+    // Remove inventory-location quote cards from previous location; update link for new location
+    document.querySelectorAll('#custom-quotes-list .custom-quote-card[data-source="inventory"]').forEach(c => c.remove());
+    updateInvQuotesLink();
     closeInvLocModal();
     // Recalculate parcel quotes if currently showing — origin affects pricing
     if (currentState === 'parcel') checkDimensions();
@@ -4172,6 +4266,7 @@ body {
 
   // Close legacy modals on overlay click
   document.addEventListener('DOMContentLoaded', function() {
+    updateInvQuotesLink();
     document.getElementById('estimate-modal-overlay').addEventListener('click', function(e) {
       if (e.target === this) closeEstimateModal();
     });
