@@ -4030,7 +4030,7 @@ body {
     updateInvQuotesLink();
     closeInvLocModal();
     // Recalculate parcel quotes if currently showing — origin affects pricing
-    if (currentState === 'parcel') checkDimensions();
+    if (currentState === 'parcel') { resetToFreshParcelState(); checkDimensions(); }
   }
 
   function showInvLocForm() {
