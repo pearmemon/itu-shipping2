@@ -2808,36 +2808,6 @@ body {
     // Step 1 must always be answered first
     if (!currentAnswer) { showState('locked'); return; }
 
-    // Preserve manual quote modifications — don't navigate away regardless of step 1/2 changes
-    if (currentState === 'parcel' && hasModifiedParcelQuotes()) {
-      // Find first fully-filled package dimensions
-      const pkgWrapsAll = Array.from(document.querySelectorAll('#packages-container .pkg-wrap'));
-      let fl = 0, fw = 0, fh = 0, fwt = 0;
-      for (const wrap of pkgWrapsAll) {
-        const inputs = Array.from(wrap.querySelectorAll('input[type="number"]')).slice(0, 4);
-        const [pl, pw, ph, pwt] = inputs.map(i => parseFloat(i.value) || 0);
-        if (pl > 0 && pw > 0 && ph > 0 && pwt > 0) { fl = pl; fw = pw; fh = ph; fwt = pwt; break; }
-      }
-      if (fl > 0 && fw > 0 && fh > 0 && fwt > 0) {
-        if (isParcel(fl, fw, fh, fwt)) {
-          // Still parcel: sum weight across all filled parcel packages, refresh only 1stDibs regions
-          const totalWt = pkgWrapsAll.reduce((sum, wrap) => {
-            const inputs = Array.from(wrap.querySelectorAll('input[type="number"]')).slice(0, 4);
-            const [pl, pw, ph, pwt] = inputs.map(i => parseFloat(i.value) || 0);
-            return (pl > 0 && pw > 0 && ph > 0 && pwt > 0 && isParcel(pl, pw, ph, pwt))
-              ? sum + pwt : sum;
-          }, 0);
-          showState('parcel-loading');
-          calcTimer = setTimeout(() => updateParcelQuotes(fl, fw, fh, totalWt), 1800);
-        } else {
-          // Crossed into freight: move seller-set parcel quotes to custom cards, generate freight
-          migrateSellerParcelQuotesToCustomCards();
-          showState('calculating');
-          calcTimer = setTimeout(() => { updatePrices(fl, fw, fh, fwt); showState('calculated'); }, 1800);
-        }
-      }
-      return;
-    }
     if (currentState === 'calculated' && hasModifiedFreightQuotes()) {
       const l = parseFloat(document.getElementById('length-1').value)  || 0;
       const w = parseFloat(document.getElementById('width-1').value)   || 0;
@@ -2845,7 +2815,8 @@ body {
       const wt = parseFloat(document.getElementById('weight-1').value) || 0;
       if (l > 0 && w > 0 && h > 0 && wt > 0) {
         if (isParcel(l, w, h, wt) && currentAnswer === 'yes') {
-          // Dimensions went back to parcel — transition out of freight; custom cards stay visible
+          // Dimensions went back to parcel — reset 1stDibs state, start fresh
+          resetToFreshParcelState();
           showState('parcel-loading');
           calcTimer = setTimeout(() => updateParcelQuotes(l, w, h, wt), 1800);
         } else {
@@ -2937,6 +2908,7 @@ body {
 
     if (l > 0 && w > 0 && h > 0 && wt > 0) {
       if (isParcel(l, w, h, wt)) {
+        if (currentState === 'calculated') resetToFreshParcelState();
         showState('parcel-loading');
         calcTimer = setTimeout(() => {
           if (currentAnswer === 'yes') {
@@ -3463,6 +3435,23 @@ body {
     });
   }
 
+  function resetToFreshParcelState() {
+    ['us', 'eu', 'row'].forEach(r => {
+      parcelData[r].quoteType      = '1stDibs Quote';
+      parcelData[r].expressQuoteType = '1stDibs Quote';
+      delete parcelData[r].customPrice;
+      delete parcelData[r].customTimeLo; delete parcelData[r].customTimeHi;
+      delete parcelData[r].expressCustomPrice;
+      delete parcelData[r].expressCustomTimeLo; delete parcelData[r].expressCustomTimeHi;
+      document.getElementById(`parcel-divider-${r}`).classList.add('hidden');
+      document.getElementById(`parcel-express-loading-${r}`).classList.add('hidden');
+      document.getElementById(`parcel-express-resolved-${r}`).classList.add('hidden');
+      document.getElementById(`parcel-remove-${r}`).classList.add('hidden');
+      document.getElementById(`parcel-add-${r}`).classList.remove('hidden');
+    });
+    resetInHome();
+  }
+
   function isParcel(l, w, h, wt) {
     return wt < 150;
   }
@@ -3639,15 +3628,12 @@ body {
     document.getElementById(`parcel-g${g}-1stdibs-price`).classList.add('hidden');
     document.getElementById(`parcel-g${g}-flatrate-price`).classList.add('hidden');
     document.getElementById(`parcel-g${g}-free-price`).classList.add('hidden');
-    document.getElementById(`parcel-g${g}-time`).classList.add('hidden');
     if (quoteType === '1stDibs Quote') {
       document.getElementById(`parcel-g${g}-1stdibs-price`).classList.remove('hidden');
     } else if (quoteType === 'Flat Rate') {
       document.getElementById(`parcel-g${g}-flatrate-price`).classList.remove('hidden');
-      document.getElementById(`parcel-g${g}-time`).classList.remove('hidden');
     } else if (quoteType === 'Free Shipping') {
       document.getElementById(`parcel-g${g}-free-price`).classList.remove('hidden');
-      document.getElementById(`parcel-g${g}-time`).classList.remove('hidden');
     }
   }
 
@@ -3719,15 +3705,9 @@ body {
       const qt = activeOpt ? activeOpt.dataset.value : '1stDibs Quote';
       if (qt === 'Flat Rate') {
         const price = document.getElementById(`parcel-g${groupNum}-price-input`).value;
-        const lo = document.getElementById(`parcel-g${groupNum}-time-lo`).value;
-        const hi = document.getElementById(`parcel-g${groupNum}-time-hi`).value;
-        return price !== '' && Number(price) > 0 && lo !== '' && Number(lo) > 0 && hi !== '' && Number(hi) > 0;
-      } else if (qt === 'Free Shipping') {
-        const lo = document.getElementById(`parcel-g${groupNum}-time-lo`).value;
-        const hi = document.getElementById(`parcel-g${groupNum}-time-hi`).value;
-        return lo !== '' && Number(lo) > 0 && hi !== '' && Number(hi) > 0;
+        return price !== '' && Number(price) > 0;
       }
-      return true; // 1stDibs Quote always valid
+      return true; // 1stDibs Quote and Free Shipping always valid
     }
     const group2Visible = !document.getElementById('parcel-method-group-2').classList.contains('hidden');
     const valid = groupValid(1) && (!group2Visible || groupValid(2));
@@ -3746,36 +3726,27 @@ body {
     parcelData[r].quoteType = document.getElementById('parcel-edit-quote-select').querySelector('.custom-select-value').textContent;
     const qt1 = parcelData[r].quoteType;
     if (qt1 === 'Flat Rate') {
-      parcelData[r].customPrice   = parseFloat(document.getElementById('parcel-g1-price-input').value) || 0;
-      parcelData[r].customTimeLo  = document.getElementById('parcel-g1-time-lo').value;
-      parcelData[r].customTimeHi  = document.getElementById('parcel-g1-time-hi').value;
-    } else if (qt1 === 'Free Shipping') {
-      parcelData[r].customTimeLo  = document.getElementById('parcel-g1-time-lo').value;
-      parcelData[r].customTimeHi  = document.getElementById('parcel-g1-time-hi').value;
+      parcelData[r].customPrice = parseFloat(document.getElementById('parcel-g1-price-input').value) || 0;
     }
     const group2Visible = !document.getElementById('parcel-method-group-2').classList.contains('hidden');
     if (group2Visible) {
       parcelData[r].expressQuoteType = document.getElementById('parcel-edit-quote-2-select').querySelector('.custom-select-value').textContent;
       const qt2 = parcelData[r].expressQuoteType;
       if (qt2 === 'Flat Rate') {
-        parcelData[r].expressCustomPrice  = parseFloat(document.getElementById('parcel-g2-price-input').value) || 0;
-        parcelData[r].expressCustomTimeLo = document.getElementById('parcel-g2-time-lo').value;
-        parcelData[r].expressCustomTimeHi = document.getElementById('parcel-g2-time-hi').value;
-      } else if (qt2 === 'Free Shipping') {
-        parcelData[r].expressCustomTimeLo = document.getElementById('parcel-g2-time-lo').value;
-        parcelData[r].expressCustomTimeHi = document.getElementById('parcel-g2-time-hi').value;
+        parcelData[r].expressCustomPrice = parseFloat(document.getElementById('parcel-g2-price-input').value) || 0;
       }
     }
-    // Re-render the card
+    // Re-render the card — time comes from the method name (e.g. "DHL Standard Parcel (5-14 Days)")
     const displayMethod = parcelData[r].method.replace(/\s*\([^)]*\)$/, '').trim();
+    const methodTime = (parcelData[r].method.match(/\(([^)]+)\)/) || [, ''])[1];
     document.getElementById(`parcel-${r}-method`).textContent      = displayMethod;
     document.getElementById(`parcel-${r}-quote-label`).textContent = parcelData[r].quoteType;
     if (qt1 === 'Flat Rate') {
-      document.getElementById(`parcel-${r}-price`).innerHTML       = `<strong>$${parcelData[r].customPrice.toFixed(2)}</strong>`;
-      document.getElementById(`parcel-${r}-time`).textContent      = `${parcelData[r].customTimeLo}-${parcelData[r].customTimeHi} days`;
+      document.getElementById(`parcel-${r}-price`).innerHTML  = `<strong>$${parcelData[r].customPrice.toFixed(2)}</strong>`;
+      document.getElementById(`parcel-${r}-time`).textContent = methodTime;
     } else if (qt1 === 'Free Shipping') {
-      document.getElementById(`parcel-${r}-price`).innerHTML       = `<strong>$0.00</strong>`;
-      document.getElementById(`parcel-${r}-time`).textContent      = `${parcelData[r].customTimeLo}-${parcelData[r].customTimeHi} days`;
+      document.getElementById(`parcel-${r}-price`).innerHTML  = `<strong>$0.00</strong>`;
+      document.getElementById(`parcel-${r}-time`).textContent = methodTime;
     }
     closeParcelEditModal();
   }
@@ -4233,15 +4204,6 @@ body {
             <p class="modal-helper" style="margin-top:2px">You absorb the shipping cost.</p>
           </div>
         </div>
-        <!-- Shipping Time (shown for Flat Rate / Free) -->
-        <div class="modal-field hidden" id="parcel-g1-time">
-          <label class="modal-label">Shipping Time</label>
-          <div class="modal-time-row">
-            <div class="modal-time-input"><input type="number" id="parcel-g1-time-lo" placeholder="0" min="0" oninput="checkParcelEditValid()"><span class="modal-time-unit">days</span></div>
-            <span class="modal-time-to">to</span>
-            <div class="modal-time-input"><input type="number" id="parcel-g1-time-hi" placeholder="0" min="0" oninput="checkParcelEditValid()"><span class="modal-time-unit">days</span></div>
-          </div>
-        </div>
       </div>
 
       <!-- Divider -->
@@ -4303,14 +4265,6 @@ body {
           <div>
             <div class="modal-price-display">$0</div>
             <p class="modal-helper" style="margin-top:2px">You absorb the shipping cost.</p>
-          </div>
-        </div>
-        <div class="modal-field hidden" id="parcel-g2-time">
-          <label class="modal-label">Shipping Time</label>
-          <div class="modal-time-row">
-            <div class="modal-time-input"><input type="number" id="parcel-g2-time-lo" placeholder="0" min="0" oninput="checkParcelEditValid()"><span class="modal-time-unit">days</span></div>
-            <span class="modal-time-to">to</span>
-            <div class="modal-time-input"><input type="number" id="parcel-g2-time-hi" placeholder="0" min="0" oninput="checkParcelEditValid()"><span class="modal-time-unit">days</span></div>
           </div>
         </div>
         <button class="parcel-remove-method-link" onclick="removeParcelMethod()">- Remove Shipping Method</button>
