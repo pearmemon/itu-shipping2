@@ -1700,7 +1700,10 @@ body {
   display: grid;
   grid-template-columns: 120px 120px 168px;
   gap: 4px var(--sp-18);
-  padding: 0 var(--sp-18) var(--sp-18);
+  padding: 0 var(--sp-18);
+}
+.parcel-card-cols--last {
+  padding-bottom: var(--sp-18);
 }
 .add-method-link {
   display: block;
@@ -2520,7 +2523,7 @@ body {
           </div>
           <!-- Inline Express method (added via + Add Shipping Method) -->
           <hr class="parcel-card-divider hidden" id="parcel-divider-us">
-          <div class="parcel-card-cols hidden" id="parcel-express-loading-us" style="padding-bottom:var(--sp-18)">
+          <div class="parcel-card-cols parcel-card-cols--last hidden" id="parcel-express-loading-us">
             <div>
               <div class="region-col-label">Shipping Method</div>
               <div class="region-col-value dots calculating-dots">•••</div>
@@ -2586,7 +2589,7 @@ body {
           </div>
           <!-- Inline Express method -->
           <hr class="parcel-card-divider hidden" id="parcel-divider-eu">
-          <div class="parcel-card-cols hidden" id="parcel-express-loading-eu" style="padding-bottom:var(--sp-18)">
+          <div class="parcel-card-cols parcel-card-cols--last hidden" id="parcel-express-loading-eu">
             <div>
               <div class="region-col-label">Shipping Method</div>
               <div class="region-col-value dots calculating-dots">•••</div>
@@ -2652,7 +2655,7 @@ body {
           </div>
           <!-- Inline Express method -->
           <hr class="parcel-card-divider hidden" id="parcel-divider-row">
-          <div class="parcel-card-cols hidden" id="parcel-express-loading-row" style="padding-bottom:var(--sp-18)">
+          <div class="parcel-card-cols parcel-card-cols--last hidden" id="parcel-express-loading-row">
             <div>
               <div class="region-col-label">Shipping Method</div>
               <div class="region-col-value dots calculating-dots">•••</div>
@@ -2814,11 +2817,16 @@ body {
       const h = parseFloat(document.getElementById('height-1').value)  || 0;
       const wt = parseFloat(document.getElementById('weight-1').value) || 0;
       if (l > 0 && w > 0 && h > 0 && wt > 0) {
-        if (isParcel(l, w, h, wt) && currentAnswer === 'yes') {
-          // Dimensions went back to parcel — reset 1stDibs state, start fresh
-          resetToFreshParcelState();
-          showState('parcel-loading');
-          calcTimer = setTimeout(() => updateParcelQuotes(l, w, h, wt), 1800);
+        if (isParcel(l, w, h, wt)) {
+          if (currentAnswer === 'yes') {
+            // Dimensions went back to parcel and seller can pack — reset, generate parcel quote
+            resetToFreshParcelState();
+            showState('parcel-loading');
+            calcTimer = setTimeout(() => updateParcelQuotes(l, w, h, wt), 1800);
+          } else {
+            // Parcel dims but cannot pack — no quote possible
+            showState('multi');
+          }
         } else {
           // Still freight: refresh smart prices, preserve in-home rows
           updatePrices(l, w, h, wt, true);
@@ -2908,16 +2916,14 @@ body {
 
     if (l > 0 && w > 0 && h > 0 && wt > 0) {
       if (isParcel(l, w, h, wt)) {
-        if (currentState === 'calculated') resetToFreshParcelState();
-        showState('parcel-loading');
-        calcTimer = setTimeout(() => {
-          if (currentAnswer === 'yes') {
-            updateParcelQuotes(l, w, h, wt);
-          } else {
-            // Can't pack — 1stDibs can't generate a parcel quote
-            showState('multi');
-          }
-        }, 1800);
+        if (currentAnswer === 'yes') {
+          if (currentState === 'calculated') resetToFreshParcelState();
+          showState('parcel-loading');
+          calcTimer = setTimeout(() => updateParcelQuotes(l, w, h, wt), 1800);
+        } else {
+          // Parcel dims but cannot pack — no quote possible, skip loading state
+          showState('multi');
+        }
       } else {
         showState('calculating');
         calcTimer = setTimeout(() => {
@@ -3113,6 +3119,8 @@ body {
     const daysFrom = document.getElementById('modal-days-from').value;
     const daysTo   = document.getElementById('modal-days-to').value;
 
+    const quoteType     = price === 0 ? 'Free Shipping' : 'Flat Rate';
+    const priceDisplay  = price === 0 ? '<strong>$0.00</strong>' : `<strong>$${price.toFixed(2)}</strong>`;
     const displayMethod = method.replace(/\s*\([^)]*\)$/, '').trim();
     const cardHTML = `
       <div class="custom-quote-header">
@@ -3141,8 +3149,8 @@ body {
         </div>
         <div>
           <div class="region-col-label">Buyer Will Pay</div>
-          <div class="region-col-value"><strong>$${price.toFixed(2)}</strong></div>
-          <div class="region-col-sub">Flat Rate</div>
+          <div class="region-col-value">${priceDisplay}</div>
+          <div class="region-col-sub">${quoteType}</div>
         </div>
       </div>`;
 
