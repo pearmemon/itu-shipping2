@@ -2902,21 +2902,31 @@ body {
         return defaultLoading; // mixed — use first-filled type
       }
       if (fromTyping) {
-        // Parcel + can pack: generate quote using first package dims, summed weight across all parcel packages
+        // Parcel + can pack: generate quote only if NO fully-filled package is freight-sized
         if (currentAnswer === 'yes') {
-          const filledParcel = pkgsWithData.filter(wrap => {
+          const fullyFilledPkgs = pkgsWithData.filter(wrap =>
+            Array.from(wrap.querySelectorAll('input[type="number"]')).every(inp => parseFloat(inp.value) > 0)
+          );
+          const hasFreightPkg = fullyFilledPkgs.some(wrap => {
             const inputs = Array.from(wrap.querySelectorAll('input[type="number"]')).slice(0, 4);
             const [pl, pw, ph, pwt] = inputs.map(i => parseFloat(i.value) || 0);
-            return pl > 0 && pw > 0 && ph > 0 && pwt > 0 && isParcel(pl, pw, ph, pwt);
+            return !isParcel(pl, pw, ph, pwt);
           });
-          if (filledParcel.length > 0) {
-            const firstInputs = Array.from(filledParcel[0].querySelectorAll('input[type="number"]')).slice(0, 4);
-            const [fl, fw, fh] = firstInputs.map(i => parseFloat(i.value) || 0);
-            const totalWt = filledParcel.reduce((sum, wrap) =>
-              sum + (parseFloat(wrap.querySelectorAll('input[type="number"]')[3].value) || 0), 0);
-            showState('parcel-loading');
-            calcTimer = setTimeout(() => updateParcelQuotes(fl, fw, fh, totalWt), 1800);
-            return;
+          if (!hasFreightPkg) {
+            const filledParcel = pkgsWithData.filter(wrap => {
+              const inputs = Array.from(wrap.querySelectorAll('input[type="number"]')).slice(0, 4);
+              const [pl, pw, ph, pwt] = inputs.map(i => parseFloat(i.value) || 0);
+              return pl > 0 && pw > 0 && ph > 0 && pwt > 0 && isParcel(pl, pw, ph, pwt);
+            });
+            if (filledParcel.length > 0) {
+              const firstInputs = Array.from(filledParcel[0].querySelectorAll('input[type="number"]')).slice(0, 4);
+              const [fl, fw, fh] = firstInputs.map(i => parseFloat(i.value) || 0);
+              const totalWt = filledParcel.reduce((sum, wrap) =>
+                sum + (parseFloat(wrap.querySelectorAll('input[type="number"]')[3].value) || 0), 0);
+              showState('parcel-loading');
+              calcTimer = setTimeout(() => updateParcelQuotes(fl, fw, fh, totalWt), 1800);
+              return;
+            }
           }
         }
         // Freight multi-package or parcel + cannot pack → error
