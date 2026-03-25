@@ -2958,7 +2958,7 @@ body {
     if (l > 0 && w > 0 && h > 0 && wt > 0) {
       if (isParcel(l, w, h, wt)) {
         if (currentAnswer === 'yes') {
-          if (currentState === 'calculated') resetToFreshParcelState();
+          if (currentState === 'calculated' || currentState === 'multi') resetToFreshParcelState();
           showState('parcel-loading');
           calcTimer = setTimeout(() => updateParcelQuotes(l, w, h, wt), 1800);
         } else {
