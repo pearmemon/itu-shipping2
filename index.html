@@ -2781,7 +2781,7 @@ body {
         <label class="modal-label">Buyers Will Pay</label>
         <div class="modal-price-input">
           <span class="modal-price-prefix">$</span>
-          <input type="number" id="modal-price" placeholder="" min="0" oninput="checkModalSave()">
+          <input type="number" id="modal-price" placeholder="" min="0" oninput="onQuoteInput()">
           <span class="modal-price-suffix">USD</span>
         </div>
         <p class="modal-helper">Buyers will pay this flat rate that you set.</p>
@@ -2791,12 +2791,12 @@ body {
         <label class="modal-label">Shipping Time</label>
         <div class="modal-time-row">
           <div class="modal-time-input">
-            <input type="number" id="modal-days-from" placeholder="" min="0" oninput="checkModalSave()">
+            <input type="number" id="modal-days-from" placeholder="" min="0" oninput="onQuoteInput()">
             <span class="modal-time-unit">days</span>
           </div>
           <span class="modal-time-to">to</span>
           <div class="modal-time-input">
-            <input type="number" id="modal-days-to" placeholder="" min="0" oninput="checkModalSave()">
+            <input type="number" id="modal-days-to" placeholder="" min="0" oninput="onQuoteInput()">
             <span class="modal-time-unit">days</span>
           </div>
         </div>
@@ -2817,6 +2817,7 @@ body {
 
 <script>
   let editingCard = null;
+  let quoteModalChanged = false;
   let currentAnswer = null;
   let calcTimer = null;
   let pkgCount = 1;
@@ -3105,6 +3106,12 @@ body {
     selectEl.querySelectorAll('.custom-select-option').forEach(o => o.classList.remove('active'));
     optionEl.classList.add('active');
     selectEl.classList.remove('open');
+    if (editingCard) quoteModalChanged = true;
+    checkModalSave();
+  }
+
+  function onQuoteInput() {
+    if (editingCard) quoteModalChanged = true;
     checkModalSave();
   }
 
@@ -3120,6 +3127,7 @@ body {
   }
 
   function openQuoteModal() {
+    quoteModalChanged = false;
     populateMethodOptions();
     ['modal-location-select','modal-method-select'].forEach(id => {
       const el = document.getElementById(id);
@@ -3148,8 +3156,9 @@ body {
     const price    = document.getElementById('modal-price').value;
     const daysFrom = document.getElementById('modal-days-from').value;
     const daysTo   = document.getElementById('modal-days-to').value;
-    const ready = location && method && price !== '' && parseFloat(price) >= 0
-                  && daysFrom !== '' && daysTo !== '';
+    const allFilled = location && method && price !== '' && parseFloat(price) >= 0
+                      && daysFrom !== '' && daysTo !== '';
+    const ready = allFilled && (!editingCard || quoteModalChanged);
     document.getElementById('modal-save-btn').disabled = !ready;
   }
 
@@ -3246,10 +3255,11 @@ body {
     document.getElementById('modal-price').value     = d.price;
     document.getElementById('modal-days-from').value = d.daysFrom;
     document.getElementById('modal-days-to').value   = d.daysTo;
+    quoteModalChanged = false;
     document.getElementById('modal-title').textContent    = 'Edit Your Own Quote';
     document.getElementById('modal-save-btn').textContent = 'Update';
+    document.getElementById('modal-save-btn').disabled    = true;
     document.getElementById('modal-delete-btn').classList.add('visible');
-    checkModalSave();
     document.getElementById('quote-modal-overlay').classList.remove('hidden');
   }
 
@@ -4359,7 +4369,7 @@ body {
           <label class="modal-label">Shipping Price</label>
           <div class="modal-price-input">
             <span class="modal-price-prefix">$</span>
-            <input type="number" id="parcel-g1-price-input" placeholder="0" min="0" oninput="checkParcelEditValid()">
+            <input type="number" id="parcel-g1-price-input" placeholder="0" min="0" oninput="parcelEditChanged=true; checkParcelEditValid()">
             <span class="modal-price-suffix">USD</span>
           </div>
           <p class="modal-helper" style="margin-top:5px">Buyers will pay this flat rate that you set.</p>
@@ -4425,7 +4435,7 @@ body {
           <label class="modal-label">Shipping Price</label>
           <div class="modal-price-input">
             <span class="modal-price-prefix">$</span>
-            <input type="number" id="parcel-g2-price-input" placeholder="0" min="0" oninput="checkParcelEditValid()">
+            <input type="number" id="parcel-g2-price-input" placeholder="0" min="0" oninput="parcelEditChanged=true; checkParcelEditValid()">
             <span class="modal-price-suffix">USD</span>
           </div>
           <p class="modal-helper" style="margin-top:5px">Buyers will pay this flat rate that you set.</p>
