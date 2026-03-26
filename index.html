@@ -3762,23 +3762,7 @@ body {
   }
 
   function checkParcelEditValid() {
-    if (!parcelEditChanged) {
-      document.getElementById('parcel-edit-save-btn').disabled = true;
-      return;
-    }
-    function groupValid(groupNum) {
-      const quoteSelectId = groupNum === 1 ? 'parcel-edit-quote-select' : 'parcel-edit-quote-2-select';
-      const activeOpt = document.getElementById(quoteSelectId).querySelector('.custom-select-option.active');
-      const qt = activeOpt ? activeOpt.dataset.value : 'Calculated Quote';
-      if (qt === 'Flat Rate') {
-        const price = document.getElementById(`parcel-g${groupNum}-price-input`).value;
-        return price !== '' && Number(price) > 0;
-      }
-      return true; // Calculated Quote and Free Shipping always valid
-    }
-    const group2Visible = !document.getElementById('parcel-method-group-2').classList.contains('hidden');
-    const valid = groupValid(1) && (!group2Visible || groupValid(2));
-    document.getElementById('parcel-edit-save-btn').disabled = !valid;
+    document.getElementById('parcel-edit-save-btn').disabled = !parcelEditChanged;
   }
 
   function closeParcelEditModal() {
