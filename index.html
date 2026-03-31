@@ -814,7 +814,7 @@ body {
 
 .region-cols {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 4px var(--sp-9);
 }
 
@@ -2134,7 +2134,7 @@ body {
   <div class="packing-section">
     <div class="packing-title">Packing and Shipping Quotes</div>
     <div class="info-banner">
-      1stDibs will automatically generate Quotes for Continental US, Europe and Rest of the World from your packing details.<br>
+      1stDibs will automatically generate quotes for the United States, Europe and Rest of the World from your packing details.<br>
       You can also add your own quote at any time if you prefer.
     </div>
   </div>
@@ -2280,6 +2280,10 @@ body {
             <div class="region-cols">
               <div>
                 <div class="region-col-label">Shipping Method</div>
+                <div class="region-col-value">Front Door Delivery</div>
+              </div>
+              <div>
+                <div class="region-col-label">Shipping Time</div>
                 <div class="region-col-value dots calculating-dots">•••</div>
               </div>
               <div>
@@ -2297,6 +2301,10 @@ body {
             <div class="region-cols">
               <div>
                 <div class="region-col-label">Shipping Method</div>
+                <div class="region-col-value">Front Door Delivery</div>
+              </div>
+              <div>
+                <div class="region-col-label">Shipping Time</div>
                 <div class="region-col-value dots calculating-dots">•••</div>
               </div>
               <div>
@@ -2314,6 +2322,10 @@ body {
             <div class="region-cols">
               <div>
                 <div class="region-col-label">Shipping Method</div>
+                <div class="region-col-value">Front Door Delivery</div>
+              </div>
+              <div>
+                <div class="region-col-label">Shipping Time</div>
                 <div class="region-col-value dots calculating-dots">•••</div>
               </div>
               <div>
@@ -2423,6 +2435,10 @@ body {
                 <div class="region-col-value">Front Door Delivery</div>
               </div>
               <div>
+                <div class="region-col-label">Shipping Time</div>
+                <div class="region-col-value" id="us-time"></div>
+              </div>
+              <div>
                 <div class="region-col-label">Buyer Will Pay</div>
                 <div class="region-col-value" id="us-price"><strong>$50.00-$100.00</strong></div>
               </div>
@@ -2431,6 +2447,10 @@ body {
               <div>
                 <div class="region-col-label">Shipping Method</div>
                 <div class="region-col-value">In-Home Delivery</div>
+              </div>
+              <div>
+                <div class="region-col-label">Shipping Time</div>
+                <div class="region-col-value" id="us-inhome-time"></div>
               </div>
               <div>
                 <div class="region-col-label">Buyer Will Pay</div>
@@ -2451,6 +2471,10 @@ body {
                 <div class="region-col-value">Front Door Delivery</div>
               </div>
               <div>
+                <div class="region-col-label">Shipping Time</div>
+                <div class="region-col-value" id="eu-time"></div>
+              </div>
+              <div>
                 <div class="region-col-label">Buyer Will Pay</div>
                 <div class="region-col-value" id="eu-price"><strong>$50.00-$100.00</strong></div>
               </div>
@@ -2459,6 +2483,10 @@ body {
               <div>
                 <div class="region-col-label">Shipping Method</div>
                 <div class="region-col-value">In-Home Delivery</div>
+              </div>
+              <div>
+                <div class="region-col-label">Shipping Time</div>
+                <div class="region-col-value" id="eu-inhome-time"></div>
               </div>
               <div>
                 <div class="region-col-label">Buyer Will Pay</div>
@@ -2479,6 +2507,10 @@ body {
                 <div class="region-col-value">Front Door Delivery</div>
               </div>
               <div>
+                <div class="region-col-label">Shipping Time</div>
+                <div class="region-col-value" id="row-time"></div>
+              </div>
+              <div>
                 <div class="region-col-label">Buyer Will Pay</div>
                 <div class="region-col-value" id="row-price"><strong>$50.00-$100.00</strong></div>
               </div>
@@ -2487,6 +2519,10 @@ body {
               <div>
                 <div class="region-col-label">Shipping Method</div>
                 <div class="region-col-value">In-Home Delivery</div>
+              </div>
+              <div>
+                <div class="region-col-label">Shipping Time</div>
+                <div class="region-col-value" id="row-inhome-time"></div>
               </div>
               <div>
                 <div class="region-col-label">Buyer Will Pay</div>
@@ -2860,8 +2896,12 @@ body {
             showState('multi');
           }
         } else {
-          // Still freight: refresh smart prices, preserve in-home rows
-          updatePrices(l, w, h, wt, true);
+          // Still freight: show loading state, then refresh smart prices, preserve in-home rows
+          showState('calculating');
+          calcTimer = setTimeout(() => {
+            updatePrices(l, w, h, wt, true);
+            showState('calculated');
+          }, 1800);
         }
       }
       return;
@@ -2992,6 +3032,9 @@ body {
     document.getElementById('us-price').innerHTML  = `<strong>${fmt(lo)}-${fmt(hi)}</strong>`;
     document.getElementById('eu-price').innerHTML  = `<strong>${fmt(euLo)}-${fmt(euHi)}</strong>`;
     document.getElementById('row-price').innerHTML = `<strong>${fmt(rowLo)}-${fmt(rowHi)}</strong>`;
+    document.getElementById('us-time').textContent  = '10-12 days';
+    document.getElementById('eu-time').textContent  = '10-12 days';
+    document.getElementById('row-time').textContent = '10-12 days';
     currentPrices = { usLo: lo, usHi: hi, euLo, euHi, rowLo, rowHi };
     if (!keepInHome) resetInHome();
   }
@@ -3001,7 +3044,10 @@ body {
       clearTimeout(inhomeTimers[region]);
       document.getElementById(`${region}-inhome-result`).classList.add('hidden');
       document.getElementById(`${region}-inhome-price`).innerHTML = '';
-      document.getElementById(`${region}-inhome-link`).textContent = '+ Add In-Home Delivery';
+      document.getElementById(`${region}-inhome-time`).textContent = '';
+      const resetLink = document.getElementById(`${region}-inhome-link`);
+      resetLink.textContent = '+ Add In-Home Delivery';
+      resetLink.classList.remove('hidden');
     });
   }
 
@@ -3014,15 +3060,18 @@ body {
       clearTimeout(inhomeTimers[region]);
       resultRow.classList.add('hidden');
       priceEl.innerHTML = '';
+      document.getElementById(`${region}-inhome-time`).textContent = '';
       link.textContent = '+ Add In-Home Delivery';
+      link.classList.remove('hidden');
       return;
     }
 
     clearTimeout(inhomeTimers[region]);
-    // Show row immediately with known info; only price is calculating
+    // Show row with loading dots; hide link until quote is ready
+    document.getElementById(`${region}-inhome-time`).textContent = '2-4 days';
     priceEl.innerHTML = '<span class="dots calculating-dots">•••</span>';
     resultRow.classList.remove('hidden');
-    link.textContent = '- Remove In-Home Delivery';
+    link.classList.add('hidden');
 
     inhomeTimers[region] = setTimeout(() => {
       const fmt = n => '$' + n.toFixed(2);
@@ -3031,6 +3080,8 @@ body {
       const lo = Math.round(currentPrices[loKey] * 2 / 5) * 5;
       const hi = Math.round(currentPrices[hiKey] * 2 / 5) * 5;
       priceEl.innerHTML = `<strong>${fmt(lo)}-${fmt(hi)}</strong>`;
+      link.textContent = '- Remove In-Home Delivery';
+      link.classList.remove('hidden');
     }, 1800);
   }
 
