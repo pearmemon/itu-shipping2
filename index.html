@@ -3068,7 +3068,8 @@ body {
 
     clearTimeout(inhomeTimers[region]);
     // Show row with loading dots; hide link until quote is ready
-    document.getElementById(`${region}-inhome-time`).textContent = '2-4 days';
+    const timeEl = document.getElementById(`${region}-inhome-time`);
+    timeEl.innerHTML = '<span class="dots calculating-dots">•••</span>';
     priceEl.innerHTML = '<span class="dots calculating-dots">•••</span>';
     resultRow.classList.remove('hidden');
     link.classList.add('hidden');
@@ -3079,6 +3080,7 @@ body {
       const [loKey, hiKey] = priceMap[region];
       const lo = Math.round(currentPrices[loKey] * 2 / 5) * 5;
       const hi = Math.round(currentPrices[hiKey] * 2 / 5) * 5;
+      timeEl.textContent = '2-4 days';
       priceEl.innerHTML = `<strong>${fmt(lo)}-${fmt(hi)}</strong>`;
       link.textContent = '- Remove In-Home Delivery';
       link.classList.remove('hidden');
